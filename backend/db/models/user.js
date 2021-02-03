@@ -105,9 +105,9 @@ module.exports = (sequelize, DataTypes) => {
           include: [ 
               {model: Value,where:{userId:user.id}},
               {model:Interest,where:{userId:user.id}},
-              {model:Feed,where:{userId:user.id}}
-          ]
-        }
+              {model:Feed,where:{userId:user.id},include: [{model: Post,include:[{model: Comment}]}]},
+              {model:Connection,where:{accepted:true},required:false},      
+           ] }
       );
     }
   };

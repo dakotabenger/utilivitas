@@ -1,0 +1,2 @@
+index - schema and domain logic (updated name or validate name or get full name) (only touches user Table)
+queries - all Users queries (protects domain from external actors)

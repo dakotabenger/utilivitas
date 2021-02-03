@@ -1,0 +1,5 @@
+It encapsalaties the business logic for a domain, 
+leveraging domain contracts, does not know about the presentation layer(routes)
+
+      routes      services     contracts    services      routes 
+       data ===> queries ===> result ===> action ===> presentation

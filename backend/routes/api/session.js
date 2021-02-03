@@ -4,7 +4,7 @@ const asyncHandler = require("express-async-handler");
 
 const { handleValidationErrors } = require("../../utils/validation");
 const { setTokenCookie, restoreUser } = require("../../utils/auth");
-const { User } = require("../../db/models");
+const { User,Post,Comment,Connection,Feed,Value } = require("../../db/models");
 
 const router = express.Router();
 
@@ -66,9 +66,9 @@ router.get(
             include: [ 
                 {model: Value,where:{userId:user.id}},
                 {model:Interest,where:{userId:user.id}},
-                {model:Feed,where:{userId:user.id}}
-            ]
-          }
+                {model:Feed,where:{userId:user.id},include: [{model: Post,include:[{model: Comment}]}]},
+                {model:Connection,where:{accepted:true},required:false},      
+            ]}
         )
       });
     } else return res.json({});

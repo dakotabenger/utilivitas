@@ -4,7 +4,7 @@ const asyncHandler = require('express-async-handler');
 
 const { handleValidationErrors } = require('../../utils/validation');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User } = require('../../db/models');
+const { User,Interest,Value,Feed } = require('../../db/models');
 
 const router = express.Router();
 
@@ -30,13 +30,53 @@ router.post(
   '/',
   validateSignup,
   asyncHandler(async (req, res) => {
-    const { email, password, username } = req.body;
-    const user = await User.signup({ email, username, password });
-
+    const { email, password, username,age,bio,valueTags,interestTags,valueDescription,interestDescription,occupation,warm_up_question,
+      photoUrl } = req.body;
+    const user = await User.signup({ email, username, password,age,bio,occupation,warm_up_question,photoUrl });
+    const feed = await Feed.create({name:`${username}'s Personal Feed`,userId:user.id})
+    const interests = await Promise.all(interestTags.map(async (interesttag) => {
+      const newInterestRow = await Interest.create({tag:interesttag.id,userId:user.id,description:interestDescription})
+      // console.log(newInterestRow,"________________________NEW INTEREST_____________________________")
+    }));
+    const values = await Promise.all(valueTags.map(async (valuetag) => {
+      const newValueRow = await Value.create({tag:valuetag.id,userId:user.id,description:valueDescription})
+      console.log(newValueRow,"________________________NEW Value_____________________________")
+    }));
+    const userWithProfileData = await User.findByPk(user.id,
+      {
+        include: [ 
+            {model: Value,where:{userId:user.id}},
+            {model:Interest,where:{userId:user.id}},
+            {model:Feed,where:{userId:user.id}}
+        ]
+      }
+    )
     await setTokenCookie(res, user);
-
+    // console.log(user,"USER CREATE___________________")
+    console.log(userWithProfileData, "USERWITHPROFILEDATA___________________________")
+    
     return res.json({
-      user
+      userWithProfileData
+    });
+  })
+);
+
+router.get(
+  '/:id',
+  asyncHandler(async (req, res) => {
+    const {id} = req.params
+    const userWithProfileData = await User.findByPk(id,
+      {
+        include: [ 
+            {model: Value,where:{userId:user.id}},
+            {model:Interest,where:{userId:user.id}},
+            {model:Feed,where:{userId:user.id}}
+        ]
+      }
+    )
+    
+    return res.json({
+      userWithProfileData
     });
   })
 );

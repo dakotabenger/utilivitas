@@ -57,11 +57,19 @@ router.delete(
 router.get(
   '/',
   restoreUser,
-  (req, res) => {
+  async (req, res) => {
     const { user } = req;
     if (user) {
       return res.json({
-        user: user.toSafeObject()
+        user: await User.findByPk(user,
+          {
+            include: [ 
+                {model: Value,where:{userId:user.id}},
+                {model:Interest,where:{userId:user.id}},
+                {model:Feed,where:{userId:user.id}}
+            ]
+          }
+        )
       });
     } else return res.json({});
   }

@@ -28,17 +28,28 @@ export const restoreUser = () => async (dispatch) => {
 };
 
 export const signup = (user) => async (dispatch) => {
-  const { username, email, password } = user;
+  // console.log("HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
+  const { username, email, password,age,bio,valueTags,interestTags,valueDescription,interestDescription,occupation,warm_up_question,
+    photoUrl} = user;
   const response = await fetch('/api/users', {
     method: 'POST',
     body: JSON.stringify({
       username,
       email,
-      password
+      password,
+      age,
+      bio,
+      valueTags,
+      interestTags,
+      valueDescription,
+      interestDescription,
+      occupation,
+      warm_up_question,
+      photoUrl
     })
   });
-
-  dispatch(setUser(response.data.user));
+  // console.log(response)
+  dispatch(setUser(response.data.userWithProfileData));
   return response;
 };
 

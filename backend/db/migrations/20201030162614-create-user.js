@@ -32,6 +32,23 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn('now'),
       },
+      occupation: {
+        type: Sequelize.STRING
+      },
+      age: {
+        type: Sequelize.INTEGER
+      },
+      warm_up_question: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      bio: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      photoUrl: {
+        type: Sequelize.STRING,
+      }
     });
   },
   down: (queryInterface, Sequelize) => {

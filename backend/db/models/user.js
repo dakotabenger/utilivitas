@@ -31,6 +31,23 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           len: [60, 60]
         }
+      },
+      warm_up_question: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      age: {
+        type: DataTypes.INTEGER
+      },
+      bio: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      photoUrl: {
+        type: DataTypes.STRING
+      },
+      occupation: {
+        type: DataTypes.STRING
       }
     },
     {
@@ -50,7 +67,13 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   User.associate = function (models) {
-    // associations can be defined here
+    User.hasMany(models.Value,{foreignKey:"userId"})
+    User.hasMany(models.Post,{foreignKey:"userId"})
+    User.hasMany(models.Interest,{foreignKey:"userId"})
+    User.hasMany(models.Feed,{foreignKey:"userId"})
+    User.hasMany(models.Comment,{foreignKey:"userId"})
+    User.hasMany(models.Connection,{foreignKey:"requestingUser"})
+    User.hasMany(models.Connection,{foreignKey:"requestedUser"})
   };
   User.prototype.toSafeObject = function () {
     // remember, this cannot be an arrow function
@@ -77,16 +100,29 @@ module.exports = (sequelize, DataTypes) => {
       }
     });
     if (user && user.validatePassword(password)) {
-      return await User.scope('currentUser').findByPk(user.id);
+      return await User.findByPk(user.id,
+        {
+          include: [ 
+              {model: Value,where:{userId:user.id}},
+              {model:Interest,where:{userId:user.id}},
+              {model:Feed,where:{userId:user.id}}
+          ]
+        }
+      );
     }
   };
 
-  User.signup = async function ({ username, email, password }) {
+  User.signup = async function ({ username, email, password,bio,age,occupation,warm_up_question,photoUrl }) {
     const hashedPassword = bcrypt.hashSync(password);
     const user = await User.create({
       username,
       email,
-      hashedPassword
+      hashedPassword,
+      bio,
+      age,
+      occupation,
+      warm_up_question,
+      photoUrl
     });
     return await User.scope('currentUser').findByPk(user.id);
   };

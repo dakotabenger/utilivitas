@@ -7,14 +7,15 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { DndProvider } from 'react-dnd'
-
+import Profile from './components/Profile'
+import RecommendationPage from './components/RecommendationPage'
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
-    // dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
-    setIsLoaded(true)
+    dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
+  
 
   return (
     <>
@@ -29,6 +30,12 @@ function App() {
           <DndProvider backend={HTML5Backend}>
             <SignupFormPage />
             </DndProvider>
+          </Route>
+          <Route path="/profile">
+            <Profile />
+          </Route>
+          <Route exact path="/">
+            <RecommendationPage />
           </Route>
         </Switch>
       )}

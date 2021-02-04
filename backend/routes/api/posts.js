@@ -14,45 +14,48 @@ router.post(
     requireAuth,
     asyncHandler(async (req, res) => {
       const {postText} = req.body;
+      
       const {feedId,userId} = req.params
       const feed = await Feed.findByPk(feedId)
-      const canPost = await Connection.findOne({where:{[Op.and]: [{requestedUser:{[Op.or]:[userId,feedId]}},{requestingUser:{[Op.or]:[userId,feedId]}}]}})
-      if (canPost) {
+      console.log(feed,"_________________________________________________________________")
+    //   const canPost = await Connection.findOne({where:{[Op.and]: [{requestedUser:{[Op.or]:[userId,feed.userId]}},{requestingUser:{[Op.or]:[userId,feed.userId]}}]}})
+    //   console.log("_______________________",canPost,"________________________")
+    //   if (canPost) {
         const newPost = await Post.create({feedId,userId,postText}) 
 
-      } else {
+    //   } else {
         
-        const userWithProfileData = await User.findByPk(user.id,
+        const userWithProfileData = await User.findByPk(userId,
             {
               include: [ 
-                  {model: Value,where:{userId:user.id}},
-                  {model:Interest,where:{userId:user.id}},
-                  {model:Feed,where:{userId:user.id},include: [{model: Post,include:[{model: Comment}]}]},
-                  {model:Connection,where:{accepted:true},required:false},      
-                ]})    
+                  {model: Value,where:{userId:userId}},
+                  {model:Interest,where:{userId:userId}},
+                  {model:Feed,where:{userId:userId},include: [{model: Post,include:[{model: Comment}]}]},
+                  {model:Connection,as: "Requests",where:{accepted:false,requestedUser:userId},required:false},
+                  {model:Connection,as: "Network",where:{accepted:true},required:false}                   ]})    
                 return res.json({
                     userWithProfileData,
-                    "message":"You can't post on this feed."
+                    // "message":"You can't post on this feed."
                   });
-      }
+    //   }
 
 
 
-      const userWithProfileData = await User.findByPk(user.id,
-        {
-          include: [ 
-              {model: Value,where:{userId:user.id}},
-              {model:Interest,where:{userId:user.id}},
-              {model:Feed,where:{userId:user.id},include: [{model: Post,include:[{model: Comment}]}]},
-              {model:Connection,where:{accepted:true},required:false},      
-            ]})
-      await setTokenCookie(res, user);
-      // console.log(user,"USER CREATE___________________")
-      console.log(userWithProfileData, "USERWITHPROFILEDATA___________________________")
+//       const userWithProfileData = await User.findByPk(userId,
+//         {
+//           include: [ 
+//               {model: Value,where:{userId:userId}},
+//               {model:Interest,where:{userId:userId}},
+//               {model:Feed,where:{userId:userId},include: [{model: Post,include:[{model: Comment}]}]},
+//               {model:Connection,as: "Requests",where:{accepted:false,requestedUser:userId},required:false},
+//               {model:Connection,as: "Network",where:{accepted:true},required:false}               ]})
+//       await setTokenCookie(res, user);
+//       // console.log(user,"USER CREATE___________________")
+//       console.log(userWithProfileData, "USERWITHPROFILEDATA___________________________")
       
-      return res.json({
-        userWithProfileData
-      });
+//       return res.json({
+//         userWithProfileData
+//       });
     })
   );
 

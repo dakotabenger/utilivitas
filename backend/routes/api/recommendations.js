@@ -5,7 +5,7 @@ const { Sequelize } = require('sequelize');
 
 const { handleValidationErrors } = require('../../utils/validation');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User,Interest,Value,Feed } = require('../../db/models');
+const { User,Interest,Value,Feed,Post,Connection,Comment } = require('../../db/models');
 
 const router = express.Router();
 
@@ -16,26 +16,51 @@ function shuffleArray(array) {
     }
 }
 
-router.get("/",requireAuth,asyncHandler(async (req,res) => {
-    const {userId} = req
+router.get("/:userId",requireAuth,asyncHandler(async (req,res) => {
+    const {userId} = req.params
     const userInterests = await Interest.findAll({where:{userId:userId}})
-    const userValues = await Value.findAll({order: Sequelize.literal('rand()'), limit: 5,where:{userId:userId}})
-    const matchingInterests = await Interest.findAll({order: Sequelize.literal('rand()'), limit: 5,where:{tag: userInterests}})
-    const matchingValues = await Value.findAll({where:{tag:userValues}})
-    if (!matchingInterests && !matchingValues) {
-        const findUsers = await User.findAll({order: Sequelize.literal('rand()'), limit: 5})
-        const randomizeUsers = shuffleArray(findUsers)
-        const matchingUser = randomizeUsers[0]
-        return res.json({matchingUser})}
-    const bothValuesandInterests = [...matchingInterests,...matchingValues]
-    const matchingUsers = await Promise.all(bothValuesandInterests.map(async (matchCritera) => {
-        return await User.findByPk(matchCritera.userId)
-    }))
-    const randomizedUsers = shuffleArray(matchingUsers)
-    const matchingUser = randomizedUsers[0]
-    return res.json({
-        matchingUser
-      });
+    console.log(userInterests,"USER INTERESTTTTTTTTTTTTTTTT")
+    const userValues = await Value.findAll({where:{userId:userId}})
+    if (userInterests.length > 1 || userValues.length > 1){
+        const interestTagArray = userInterests.map((interest) => {
+            return interest.tag
+        })
+        const valueTagArray = userValues.map((value) => {
+            return value.tag
+        })
+        const matchingInterests = await Interest.findAll({order: [ [ Sequelize.fn('RANDOM') ] ], limit: 5,where:{tag: {[Sequelize.Op.in]:interestTagArray},[Sequelize.Op.not]: {userId:userId}}})
+        const matchingValues = await Value.findAll({order: [ [ Sequelize.fn('RANDOM') ] ], limit: 5,where:{tag:{[Sequelize.Op.in]: valueTagArray},[Sequelize.Op.not]: {userId:userId}}})
+        // console.log(matchingValues,"matching VALUES_______________________________")
+        if (!matchingInterests && !matchingValues) {
+            const findUsers = await User.findAll({order: [ [ Sequelize.fn('RANDOM') ] ] , limit: 5})
+            const randomizeUsers = shuffleArray(findUsers)
+            const matchingUser = randomizeUsers[0]
+            return res.json({matchingUser})
+        }
+
+        const bothValuesandInterests = [...matchingInterests,...matchingValues]
+        // console.log("_________________________",bothValuesandInterests,"__________________________")
+        const matchingUsers = await Promise.all(bothValuesandInterests.map(async (matchCritera) => {
+            return await User.findByPk(matchCritera.userId,
+                {
+                  include: [ 
+                      {model: Value,where:{userId:matchCritera.userId}},
+                      {model:Interest,where:{userId:matchCritera.userId}},
+                      {model:Feed,where:{userId:matchCritera.userId},include: [{model: Post,include:[{model: Comment}]}]},
+                      {model:Connection,as: "Requests",where:{accepted:false,requestedUser:matchCritera.userId},required:false},
+                      {model:Connection,as: "Network",where:{accepted:true},required:false}             
+                  ]
+                }
+              )
+        }))
+        // console.log(matchingUsers,"HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
+        
+        shuffleArray(matchingUsers)
+        const matchingUser = matchingUsers[0]
+        return res.json({
+            matchingUser
+          });
+    }
 }))
 
 module.exports = router;

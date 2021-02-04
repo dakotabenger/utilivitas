@@ -49,11 +49,11 @@ router.post(
             {model: Value,where:{userId:user.id}},
             {model:Interest,where:{userId:user.id}},
             {model:Feed,where:{userId:user.id},include: [{model: Post,include:[{model: Comment}]}]},
-            {model:Connection,where:{accepted:true},required:false},      
-          ]})
+            {model:Connection,as: "Requests",where:{accepted:false,requestedUser:user.id},required:false},
+            {model:Connection,as: "Network",where:{accepted:true},required:false}             ]})
     await setTokenCookie(res, user);
     // console.log(user,"USER CREATE___________________")
-    console.log(userWithProfileData, "USERWITHPROFILEDATA___________________________")
+    // console.log(userWithProfileData, "USERWITHPROFILEDATA___________________________")
     
     return res.json({
       userWithProfileData
@@ -71,8 +71,8 @@ router.get(
             {model: Value,where:{userId:user.id}},
             {model:Interest,where:{userId:user.id}},
             {model:Feed,where:{userId:user.id},include: [{model: Post,include:[{model: Comment}]}]},
-            {model:Connection,where:{accepted:true},required:false},      
-
+            {model:Connection,as: "Requests",where:{accepted:false,requestedUser:id},required:false},
+            {model:Connection,as: "Network",where:{accepted:true},required:false}   
         ]
       }
     )

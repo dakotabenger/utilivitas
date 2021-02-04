@@ -4,7 +4,7 @@ const asyncHandler = require("express-async-handler");
 
 const { handleValidationErrors } = require("../../utils/validation");
 const { setTokenCookie, restoreUser } = require("../../utils/auth");
-const { User,Post,Comment,Connection,Feed,Value } = require("../../db/models");
+const { User,Post,Comment,Connection,Feed,Value,Interest } = require("../../db/models");
 
 const router = express.Router();
 
@@ -26,17 +26,24 @@ router.post(
   asyncHandler(async (req, res, next) => {
     const { credential, password } = req.body;
 
-    const user = await User.login({ credential, password });
+    const loggedInUser = await User.login({ credential, password });
 
-    if (!user) {
+    if (!loggedInUser) {
       const err = new Error('Login failed');
       err.status = 401;
       err.title = 'Login failed';
       err.errors = ['The provided credentials were invalid.'];
       return next(err);
     }
-
-    await setTokenCookie(res, user);
+    const user = await User.findByPk(loggedInUser.id,
+      {
+        include: [ 
+            {model: Value,where:{userId:loggedInUser.id}},
+            {model:Interest,where:{userId:loggedInUser.id}},
+            {model:Feed,where:{userId:loggedInUser.id},include: [{model: Post,include:[{model: Comment}]}]},
+            {model:Connection,as: "Requests",where:{accepted:false,requestedUser:loggedInUser.id},required:false},
+            {model:Connection,as: "Network",where:{accepted:true},required:false}             ]})
+    await setTokenCookie(res, loggedInUser);
 
     return res.json({
       user,
@@ -61,14 +68,14 @@ router.get(
     const { user } = req;
     if (user) {
       return res.json({
-        user: await User.findByPk(user,
+        user: await User.findByPk(user.id,
           {
             include: [ 
                 {model: Value,where:{userId:user.id}},
                 {model:Interest,where:{userId:user.id}},
                 {model:Feed,where:{userId:user.id},include: [{model: Post,include:[{model: Comment}]}]},
-                {model:Connection,where:{accepted:true},required:false},      
-            ]}
+                {model:Connection,as: "Requests",where:{accepted:false,requestedUser:user.id},required:false},
+                {model:Connection,as: "Network",where:{accepted:true},required:false}               ]}
         )
       });
     } else return res.json({});

@@ -1,6 +1,7 @@
 'use strict';
 const { Validator } = require('sequelize');
 const bcrypt = require('bcryptjs');
+const { User,Post,Comment,Connection,Feed,Value,Interest } = require("../../db/models");
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
@@ -72,7 +73,8 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.Interest,{foreignKey:"userId"})
     User.hasMany(models.Feed,{foreignKey:"userId"})
     User.hasMany(models.Comment,{foreignKey:"userId"})
-    User.hasMany(models.Connection,{foreignKey:"requestingUser"})
+    User.hasMany(models.Connection,{as:"Network",foreignKey:"requestingUser"})
+    User.hasMany(models.Connection,{as:"Requests",foreignKey:"requestingUser"})
     User.hasMany(models.Connection,{foreignKey:"requestedUser"})
   };
   User.prototype.toSafeObject = function () {
@@ -100,14 +102,14 @@ module.exports = (sequelize, DataTypes) => {
       }
     });
     if (user && user.validatePassword(password)) {
-      return await User.findByPk(user.id,
-        {
-          include: [ 
-              {model: Value,where:{userId:user.id}},
-              {model:Interest,where:{userId:user.id}},
-              {model:Feed,where:{userId:user.id},include: [{model: Post,include:[{model: Comment}]}]},
-              {model:Connection,where:{accepted:true},required:false},      
-           ] }
+      return await User.findByPk(user.id
+        // {
+        //   include: [ 
+        //       {model: Value,where:{userId:user.id}},
+        //       {model:Interest,where:{userId:user.id}},
+        //       {model:Feed,where:{userId:user.id},include: {model: Post,include:{model: Comment}}},
+        //       {model:Connection,where:{accepted:true},required:false},      
+        //    ] }
       );
     }
   };

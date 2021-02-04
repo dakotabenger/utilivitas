@@ -14,17 +14,20 @@ router.post(
     requireAuth,
     asyncHandler(async (req, res) => {
           const {requestingUserId, requestedUserId} = req.params
+          console.log(requestedUserId,requestingUserId,"_______________________IDS_______________")
           const {warm_up_response} = req.body
-          const newConnection = await Connection.create({requestedUserId,requestingUserId,warm_up_response,accepted:false})
-          
+          const newConnection = await Connection.create({requestedUser:requestedUserId,requestingUser:requestingUserId,warm_up_response,accepted:false})
+          console.log(newConnection)
           const userWithProfileData = await User.findByPk(requestingUserId,
             {
               include: [ 
                   {model: Value,where:{userId:requestingUserId}},
                   {model:Interest,where:{userId:requestingUserId}},
                   {model:Feed,where:{userId:requestingUserId},include: [{model: Post,include:[{model: Comment}]}]},
-                  {model:Connection,where:{accepted:true}},      
-              ]}) 
+                  {model:Connection,as: "Requests",where:{accepted:false,requestedUser:requestingUserId},required:false},
+                  {model:Connection,as: "Network",where:{accepted:true},required:false}      
+              ]}
+              ) 
       
       return res.json({
         userWithProfileData
@@ -53,8 +56,8 @@ router.post(
                   {model: Value,where:{userId:requestingUserId}},
                   {model:Interest,where:{userId:requestingUserId}},
                   {model:Feed,where:{userId:requestingUserId},include: [{model: Post,include:[{model: Comment}]}]},
-                  {model:Connection,where:{accepted:true},required:false},      
-                ]}) 
+                  {model:Connection,as: "Requests",where:{accepted:false,requestedUser:requestingUserId},required:false},
+                  {model:Connection,as: "Network",where:{accepted:true},required:false}                   ]}) 
       
       return res.json({
         userWithProfileData

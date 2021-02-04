@@ -1,9 +1,9 @@
 import { fetch } from './csrf.js';
-
+import * as selectedUserActions from './selectedUser'
 const SET_USER = 'session/setUser';
 const REMOVE_USER = 'session/removeUser';
 
-const setUser = (user) => ({
+export const setUser = (user) => ({
   type: SET_USER,
   payload: user
 });
@@ -17,13 +17,15 @@ export const login = ({ credential, password }) => async (dispatch) => {
     method: 'POST',
     body: JSON.stringify({ credential, password })
   });
-  dispatch(setUser(res.data.user));
+  await dispatch(setUser(res.data.user))
+  await dispatch(selectedUserActions.getRandomRecommendation(res.data.user.id))
   return res;
 };
 
 export const restoreUser = () => async (dispatch) => {
   const res = await fetch('/api/session');
-  dispatch(setUser(res.data.user));
+  await dispatch(setUser(res.data.user));
+  await dispatch(selectedUserActions.getRandomRecommendation(res.data.user.id))
   return res;
 };
 
@@ -49,7 +51,7 @@ export const signup = (user) => async (dispatch) => {
     })
   });
   // console.log(response)
-  dispatch(setUser(response.data.userWithProfileData));
+  await dispatch(selectedUserActions.getRandomRecommendation(response.data.userWithProfileData.id))
   return response;
 };
 

@@ -22,14 +22,14 @@ router.post(
 
       } else {
         
-        const userWithProfileData = await User.findByPk(user.id,
+        const userWithProfileData = await User.findByPk(userId,
             {
               include: [ 
-                  {model: Value,where:{userId:user.id}},
-                  {model:Interest,where:{userId:user.id}},
-                  {model:Feed,where:{userId:user.id},include: [{model: Post,include:[{model: Comment}]}]},
-                  {model:Connection,where:{accepted:true},required:false},      
-                ]})    
+                  {model: Value,where:{userId:userId}},
+                  {model:Interest,where:{userId:userId}},
+                  {model:Feed,where:{userId:userId},include: [{model: Post,include:[{model: Comment}]}]},
+                  {model:Connection,as: "Requests",where:{accepted:false,requestedUser:userId},required:false},
+                  {model:Connection,as: "Network",where:{accepted:true},required:false}                   ]})    
                 return res.json({
                     userWithProfileData,
                     "message":"You can't post on this feed."
@@ -38,14 +38,14 @@ router.post(
 
 
 
-      const userWithProfileData = await User.findByPk(user.id,
+      const userWithProfileData = await User.findByPk(userId,
         {
           include: [ 
-              {model: Value,where:{userId:user.id}},
-              {model:Interest,where:{userId:user.id}},
-              {model:Feed,where:{userId:user.id},include: [{model: Post,include:[{model: Comment}]}]},
-              {model:Connection,where:{accepted:true},required:false},      
-            ]})
+              {model: Value,where:{userId:userId}},
+              {model:Interest,where:{userId:userId}},
+              {model:Feed,where:{userId:userId},include: [{model: Post,include:[{model: Comment}]}]},
+              {model:Connection,as: "Requests",where:{accepted:false,requestedUser:userId},required:false},
+              {model:Connection,as: "Network",where:{accepted:true},required:false}               ]})
       await setTokenCookie(res, user);
       // console.log(user,"USER CREATE___________________")
     //   console.log(userWithProfileData, "USERWITHPROFILEDATA___________________________")

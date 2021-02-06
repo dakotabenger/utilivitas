@@ -14,16 +14,17 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
+    // setIsLoaded(true)
   }, [dispatch]);
   
 
   return (
     <>
 
-      <Navigation isLoaded={isLoaded} />
+      
       {isLoaded && (
         <Switch>
-          <Route path="/login" >
+          <Route path="/" >
             <LoginFormPage />
           </Route>
           <Route path="/signup">
@@ -34,7 +35,7 @@ function App() {
           <Route path="/profile">
             <Profile />
           </Route>
-          <Route exact path="/">
+          <Route exact path="/home">
             <RecommendationPage />
           </Route>
         </Switch>

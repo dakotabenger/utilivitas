@@ -74,7 +74,8 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.Feed,{foreignKey:"userId"})
     User.hasMany(models.Comment,{foreignKey:"userId"})
     User.hasMany(models.Connection,{as:"Network",foreignKey:"requestingUser"})
-    User.hasMany(models.Connection,{as:"Requests",foreignKey:"requestingUser"})
+    User.hasMany(models.Connection,{foreignKey:"requestingUser"})
+    User.hasMany(models.Connection,{as:"Requests",foreignKey:"requestedUser"})
     User.hasMany(models.Connection,{foreignKey:"requestedUser"})
   };
   User.prototype.toSafeObject = function () {

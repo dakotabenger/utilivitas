@@ -1,0 +1,71 @@
+.feed-div {
+    overflow-y: auto;
+    float:left;
+    width:50%;
+    height:calc(100vh - 40px);
+}
+.post-text {
+    font-size: 12pt;
+    margin-left: 40px;
+    margin-right: 40px;
+
+}
+
+.post-comment-button {
+    position: relative;
+    padding: 15px;
+    left: 10px;
+}
+
+.post-comment-form {
+    min-width: 75%;
+}
+
+.post-comment-div {
+ display: flex;
+ margin: 8px;
+}
+
+.post-text-area {
+    width: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-container {
+   
+}
+
+.text-center {
+    text-align: center;
+}
+
+.create-post-button {
+    height: 40px;
+    padding: 10px;
+}
+
+.right-side-container {
+    height: calc(100vh - 40px);
+    overflow-y: auto;
+    float:left;
+    width:50%;
+}
+
+.profile-row {
+    display: flex;
+}
+
+.space-between {
+    align-items: stretch;
+}
+
+.nav-bar {
+    position: sticky;
+    bottom: 10;
+}
+
+body {
+    background-color: gainsboro;
+}

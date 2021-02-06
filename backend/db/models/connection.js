@@ -7,8 +7,8 @@ module.exports = (sequelize, DataTypes) => {
     warm_up_response: DataTypes.STRING
   }, {});
   Connection.associate = function(models) {
-    Connection.belongsTo(models.User,{foreignKey:"requestingUser"})
-    Connection.belongsTo(models.User,{foreignKey:"requestedUser"})
+    Connection.belongsTo(models.User,{through:"Network",foreignKey:"requestingUser"})
+    Connection.belongsTo(models.User,{through:"Requests",foreignKey:"requestedUser"})
   };
   return Connection;
 };

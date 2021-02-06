@@ -17,17 +17,23 @@ router.post(
           console.log(requestedUserId,requestingUserId,"_______________________IDS_______________")
           const {warm_up_response} = req.body
           const newConnection = await Connection.create({requestedUser:requestedUserId,requestingUser:requestingUserId,warm_up_response,accepted:false})
-          console.log(newConnection)
-          const userWithProfileData = await User.findByPk(requestingUserId,
+          console.log(newConnection,"HEREEEEEEEEEEEEEEEEEEEEEEEEEE____________________________________________________________________________________________________")
+          const userWithProfileData = await User.findByPk(matchCritera.userId,
             {
               include: [ 
-                  {model: Value,where:{userId:requestingUserId}},
-                  {model:Interest,where:{userId:requestingUserId}},
-                  {model:Feed,where:{userId:requestingUserId},include: [{model: Post,include:[{model: Comment}]}]},
-                  {model:Connection,as: "Requests",where:{accepted:false,requestedUser:requestingUserId},required:false},
-                  {model:Connection,as: "Network",where:{accepted:true},required:false}      
-              ]}
-              ) 
+                  {model: Value,where:{userId:matchCritera.userId}},
+                  {model:Interest,where:{userId:matchCritera.userId}},
+                  {model:Feed,where:{userId:matchCritera.userId},include: [{model: Post,include:[{model: Comment,include:[{model:User}]},{model:User}]}]},
+                  {model:Connection,as: "Requests",where:{accepted:false,requestedUser:matchCritera.userId},required:false,include:[{model:User,include:[{model: Value,where:{userId:matchCritera.userId}},
+                  {model:Interest,where:{userId:matchCritera.userId}},
+                  {model:Feed,where:{userId:matchCritera.userId},include: [{model: Post,include:[{model: Comment,include:[{model:User}]},{model:User}]}]}]}]},
+                  {model:Connection,as: "Network",where:{accepted:true},required:false,include:[{model:User,include:[{model: Value,where:{userId:matchCritera.userId}},
+                    {model:Interest,where:{userId:matchCritera.userId}},
+                    {model:Feed,where:{userId:matchCritera.userId},include: [{model: Post,include:[{model: Comment,include:[{model:User}]},{model:User}]}]}]}]}             
+              ]
+            }
+          )
+    
       
       return res.json({
         userWithProfileData
@@ -55,7 +61,7 @@ router.post(
               include: [ 
                   {model: Value,where:{userId:requestingUserId}},
                   {model:Interest,where:{userId:requestingUserId}},
-                  {model:Feed,where:{userId:requestingUserId},include: [{model: Post,include:[{model: Comment}]}]},
+                  {model:Feed,where:{userId:requestingUserId},include: [{model: Post,include:[{model: Comment,include:[{model:User}]},{model:User}]}]},                {model:Connection,as: "Requests",where:{accepted:false,requestedUser:user.id},required:false},
                   {model:Connection,as: "Requests",where:{accepted:false,requestedUser:requestingUserId},required:false},
                   {model:Connection,as: "Network",where:{accepted:true},required:false}                   ]}) 
       

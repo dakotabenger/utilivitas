@@ -46,9 +46,13 @@ router.get("/:userId",requireAuth,asyncHandler(async (req,res) => {
                   include: [ 
                       {model: Value,where:{userId:matchCritera.userId}},
                       {model:Interest,where:{userId:matchCritera.userId}},
-                      {model:Feed,where:{userId:matchCritera.userId},include: [{model: Post,include:[{model: Comment}]}]},
-                      {model:Connection,as: "Requests",where:{accepted:false,requestedUser:matchCritera.userId},required:false},
-                      {model:Connection,as: "Network",where:{accepted:true},required:false}             
+                      {model:Feed,where:{userId:matchCritera.userId},include: [{model: Post,include:[{model: Comment,include:[{model:User}]},{model:User}]}]},
+                      {model:Connection,as: "Requests",where:{accepted:false,requestedUser:matchCritera.userId},required:false,include:[{model:User,include:[{model: Value,where:{userId:matchCritera.userId}},
+                      {model:Interest,where:{userId:matchCritera.userId}},
+                      {model:Feed,where:{userId:matchCritera.userId},include: [{model: Post,include:[{model: Comment,include:[{model:User}]},{model:User}]}]}]}]},
+                      {model:Connection,as: "Network",where:{accepted:true},required:false,include:[{model:User,include:[{model: Value,where:{userId:matchCritera.userId}},
+                        {model:Interest,where:{userId:matchCritera.userId}},
+                        {model:Feed,where:{userId:matchCritera.userId},include: [{model: Post,include:[{model: Comment,include:[{model:User}]},{model:User}]}]}]}]}             
                   ]
                 }
               )

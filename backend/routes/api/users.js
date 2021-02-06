@@ -44,13 +44,21 @@ router.post(
       console.log(newValueRow,"________________________NEW Value_____________________________")
     }));
     const userWithProfileData = await User.findByPk(user.id,
-      {
-        include: [ 
-            {model: Value,where:{userId:user.id}},
-            {model:Interest,where:{userId:user.id}},
-            {model:Feed,where:{userId:user.id},include: [{model: Post,include:[{model: Comment}]}]},
-            {model:Connection,as: "Requests",where:{accepted:false,requestedUser:user.id},required:false},
-            {model:Connection,as: "Network",where:{accepted:true},required:false}             ]})
+                {
+                  include: [ 
+                      {model: Value,where:{userId:user.id}},
+                      {model:Interest,where:{userId:user.id}},
+                      {model:Feed,where:{userId:user.id},include: [{model: Post,include:[{model: Comment,include:[{model:User}]},{model:User}]}]},
+                      {model:Connection,as: "Requests",where:{accepted:false,requestedUser:user.id},required:false,include:[{model:User,include:[{model: Value,where:{userId:user.id}},
+                      {model:Interest,where:{userId:user.id}},
+                      {model:Feed,where:{userId:user.id},include: [{model: Post,include:[{model: Comment,include:[{model:User}]},{model:User}]}]}]}]},
+                      {model:Connection,as: "Network",where:{accepted:true},required:false,include:[{model:User,include:[{model: Value,where:{userId:user.id}},
+                        {model:Interest,where:{userId:user.id}},
+                        {model:Feed,where:{userId:user.id},include: [{model: Post,include:[{model: Comment,include:[{model:User}]},{model:User}]}]}]}]}             
+                  ]
+                }
+              )
+        
     await setTokenCookie(res, user);
     // console.log(user,"USER CREATE___________________")
     // console.log(userWithProfileData, "USERWITHPROFILEDATA___________________________")
@@ -68,14 +76,20 @@ router.get(
     const userWithProfileData = await User.findByPk(id,
       {
         include: [ 
-            {model: Value,where:{userId:user.id}},
-            {model:Interest,where:{userId:user.id}},
-            {model:Feed,where:{userId:user.id},include: [{model: Post,include:[{model: Comment}]}]},
-            {model:Connection,as: "Requests",where:{accepted:false,requestedUser:id},required:false},
-            {model:Connection,as: "Network",where:{accepted:true},required:false}   
+            {model: Value,where:{userId:id}},
+            {model:Interest,where:{userId:id}},
+            {model:Feed,where:{userId:id},include: [{model: Post,include:[{model: Comment,include:[{model:User}]},{model:User}]}]},
+            {model:Connection,as: "Requests",where:{accepted:false,requestedUser:id},required:false,include:[{model:User,include:[{model: Value,where:{userId:id}},
+            {model:Interest,where:{userId:id}},
+            {model:Feed,where:{userId:id},include: [{model: Post,include:[{model: Comment,include:[{model:User}]},{model:User}]}]}]}]},
+            {model:Connection,as: "Network",where:{accepted:true},required:false,include:[{model:User,include:[{model: Value,where:{userId:id}},
+              {model:Interest,where:{userId:id}},
+              {model:Feed,where:{userId:id},include: [{model: Post,include:[{model: Comment,include:[{model:User}]},{model:User}]}]}]}]}             
         ]
       }
     )
+
+  
     
     return res.json({
       userWithProfileData

@@ -36,13 +36,21 @@ router.post(
       return next(err);
     }
     const user = await User.findByPk(loggedInUser.id,
-      {
-        include: [ 
-            {model: Value,where:{userId:loggedInUser.id}},
-            {model:Interest,where:{userId:loggedInUser.id}},
-            {model:Feed,where:{userId:loggedInUser.id},include: [{model: Post,include:[{model: Comment}]}]},
-            {model:Connection,as: "Requests",where:{accepted:false,requestedUser:loggedInUser.id},required:false},
-            {model:Connection,as: "Network",where:{accepted:true},required:false}             ]})
+                {
+                  include: [ 
+                      {model: Value,where:{userId:loggedInUser.id}},
+                      {model:Interest,where:{userId:loggedInUser.id}},
+                      {model:Feed,where:{userId:loggedInUser.id},include: [{model: Post,include:[{model: Comment,include:[{model:User}]},{model:User}]}]},
+                      {model:Connection,as: "Requests",where:{accepted:false,requestedUser:loggedInUser.id},required:false,include:[{model:User,include:[{model: Value,where:{userId:loggedInUser.id}},
+                      {model:Interest,where:{userId:loggedInUser.id}},
+                      {model:Feed,where:{userId:loggedInUser.id},include: [{model: Post,include:[{model: Comment,include:[{model:User}]},{model:User}]}]}]}]},
+                      {model:Connection,as: "Network",where:{accepted:true},required:false,include:[{model:User,include:[{model: Value,where:{userId:loggedInUser.id}},
+                        {model:Interest,where:{userId:loggedInUser.id}},
+                        {model:Feed,where:{userId:loggedInUser.id},include: [{model: Post,include:[{model: Comment,include:[{model:User}]},{model:User}]}]}]}]}             
+                  ]
+                }
+              )
+        
     await setTokenCookie(res, loggedInUser);
 
     return res.json({
@@ -69,14 +77,21 @@ router.get(
     if (user) {
       return res.json({
         user: await User.findByPk(user.id,
-          {
-            include: [ 
-                {model: Value,where:{userId:user.id}},
-                {model:Interest,where:{userId:user.id}},
-                {model:Feed,where:{userId:user.id},include: [{model: Post,include:[{model: Comment}]}]},
-                {model:Connection,as: "Requests",where:{accepted:false,requestedUser:user.id},required:false},
-                {model:Connection,as: "Network",where:{accepted:true},required:false}               ]}
-        )
+                {
+                  include: [ 
+                      {model: Value,where:{userId:user.id}},
+                      {model:Interest,where:{userId:user.id}},
+                      {model:Feed,where:{userId:user.id},include: [{model: Post,include:[{model: Comment,include:[{model:User}]},{model:User}]}]},
+                      {model:Connection,as: "Requests",where:{accepted:false,requestedUser:user.id},required:false,include:[{model:User,include:[{model: Value,where:{userId:user.id}},
+                      {model:Interest,where:{userId:user.id}},
+                      {model:Feed,where:{userId:user.id},include: [{model: Post,include:[{model: Comment,include:[{model:User}]},{model:User}]}]}]}]},
+                      {model:Connection,as: "Network",where:{accepted:true},required:false,include:[{model:User,include:[{model: Value,where:{userId:user.id}},
+                        {model:Interest,where:{userId:user.id}},
+                        {model:Feed,where:{userId:user.id},include: [{model: Post,include:[{model: Comment,include:[{model:User}]},{model:User}]}]}]}]}             
+                  ]
+                }
+              )
+        
       });
     } else return res.json({});
   }

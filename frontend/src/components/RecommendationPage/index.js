@@ -2,9 +2,15 @@ import React, { useState,useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory } from "react-router-dom";
 import * as sessionActions from "../../store/session";
+import './css/style.css'
+import RequestProfile from './RequestProfile/RequestProfile'
 import { fetch } from '../../store/csrf';
 import {setUser} from '../../store/session'
-import { getRandomRecommendation } from "../../store/selectedUser";
+import { getRandomRecommendation,getUser } from "../../store/selectedUser";
+import { set } from "js-cookie";
+import NetworkRequest from './NetworkRequests/NetworkRequests'
+import { NavLink } from 'react-router-dom';
+
  function RecommendationPage() {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
@@ -13,26 +19,40 @@ import { getRandomRecommendation } from "../../store/selectedUser";
   const [warm_up_response,setWarmUpResponse] = useState("")
   const [postText,setPostText] = useState("")
   const history = useHistory()
-//   useEffect(() => {
-//     setIsLoaded(true)
-//   }, [dispatch]);
-  if (!sessionUser || !selectedUser) return <Redirect to="/login" />;
+  const [commentText,setCommentText] = useState("")
+  const [recommendationClick,setRecommendationClick] = useState(false)
+  const [requestClick,setRequestClick] = useState(false)
+  const [approvedClick,setApprovedClick] = useState(false)
+  const [feedsClick,setFeedsClick] = useState(false)
+  useEffect(() => {
+    setIsLoaded(true)
+  }, [dispatch,isLoaded]);
+  if (!sessionUser || !selectedUser) return history.push("/login")
 
-  const getRecommendation = async (e) => {
-      e.preventDefault()
-      setIsLoaded(true)
+  const handleCommentPost = async (e,id) => {
+    setIsLoaded(true)
+    e.preventDefault()
+    const res = await fetch(`/api/comments/${id}/${sessionUser.id}`, {
+      method: 'POST',
+      body: JSON.stringify({commentText})
+    });
+    dispatch(setUser(res.data.userWithProfileData));
   }
-  const handleConnection = async (e) => {
+  const getRecommendation = async (e) => {
+      setIsLoaded(true)
       e.preventDefault()
-      const res = await fetch(`/api/connections/${sessionUser.id}/${selectedUser.id}`, {
-        method: 'POST',
-        body: JSON.stringify({ warm_up_response})
-      });
-      console.log(res.data)
-      await dispatch(setUser(res.data.userWithProfileData));
-      history.go(0)
-    }
-
+      dispatch(getRandomRecommendation(sessionUser.id))
+  }
+  
+  const handleMyFeedClick = async (e) => {  
+    e.preventDefault()
+    dispatch(getUser(sessionUser.id))
+    setRecommendationClick(false)
+  }
+  const logout = (e) => {
+    e.preventDefault();
+    dispatch(sessionActions.logout());
+  };
  const handlePost = async (e) => {
     e.preventDefault()
     const res = await fetch(`/api/posts/${sessionUser.Feeds[0].id}/${sessionUser.id}`, {
@@ -46,41 +66,148 @@ import { getRandomRecommendation } from "../../store/selectedUser";
   return (
       <>
     {isLoaded && (
-        <>
-        <h1>{selectedUser.username.charAt(0).toUpperCase() + selectedUser.username.slice(1)}'s Profile</h1>
-        <span>Age: {selectedUser.age} <br></br>Occupation: {selectedUser.occupation}</span>
-        <div>
-            <h2>Their Bio:</h2>
-            <div>
-                {selectedUser.bio}
-            </div>
-            <h2>What's important to them:</h2>
-            <div>
-            {selectedUser.Values[0].description}
-            </div>
-            <div><br></br>Their Values Tags: {selectedUser.Values.map((value,i) => {return (<div>Tag  {i+1})  {value.tag}  </div>)})}</div>
-            <h2>Here's what they have to say about their interests:</h2>
-            <div>
-                {selectedUser.Interests[0].description}
-            </div>
-            <div><br></br>Their Interests Tags:{selectedUser.Interests.map((interest,i) => {return (<div>Tag  {i+1})  {interest.tag}  </div>)})}</div></div>
-            <div>
-            <span>Send them a network request by answering their Warm Up Question:</span>
-            <textarea value={warm_up_response} onChange={(e) => setWarmUpResponse(e.target.value)} />
-            <button onClick={(e) => handleConnection(e)} >Send Request</button>
-            </div>
-            </>
-    )}
-    <button onClick={(e) => getRecommendation(e)}>Get Recommendation</button>
-    <div>
-        <label>Create A Post On Your Public Feed:
-        <textarea value={postText} onChange={(e)=>setPostText(e.target.value)}></textarea>
-        <button onClick={(e) => handlePost(e)}>Post Comment</button>
-        </label>
-    </div>
-    </>
+      <>
+      <div className="container-fluid">
+	<div className="row content-container">
     
-  );
-}
+		<div className="col-md-7 feed-div">
+			<h2 className="text-center card-header">
+            {selectedUser.username === sessionUser.username ? "Your Public Feed" : `${selectedUser.username}'s Public Feed`}			</h2>
+
+  <div class="card-body">
+            <h3 className="text-center">
+                Create A Post On {selectedUser.username === sessionUser.username ? "Your" : `${selectedUser.username}'s`} Public feed
+            </h3>
+            <div class="row">
+                <div class="col-sm-1"></div>
+                     <div class="form-group col-sm-10 post-text-area">
+        
+
+                <textarea class="form-control  post-text-area" rows="8"value={postText} onChange={(e)=>setPostText(e.target.value)}></textarea>
+                
+            </div>
+                    <div class="col-sm-1"></div>
+            {/* <div class="col-sm-1"></div> */}
+            </div>
+				
+			<div class="row card-footer">
+                <div class="col-sm-5">
+                </div>
+
+                    <button class="btn btn-primary col-sm-2 create-post-button" onClick={(e) => handlePost(e)}>
+                         Create Post.
+                    </button>
+                <div class="col-sm-5"></div>
+            </div>
+			</div>	
+				
+ {/* ____________________________________       POSTS COMMENTS AND POSTING COMMENTS IN HERE__________________________________________________ */}
+ {/* <h5>{sessionUser.Feeds[0].Posts.length > 0 ? `${sessionUser.Feeds[0].Posts[0].User.username} - Posted At: ${sessionUser.Feeds[0].Posts[0].createdAt}` : sessionUser.username}</h5>
+             <p>{sessionUser.Feeds[0].Posts[0] ? sessionUser.Feeds[0].Posts[0].postText : "" }</p>
+                {sessionUser.Feeds[0].Posts[0].Comments.length > 0 ? sessionUser.Feeds[0].Posts[0].Comments.slice(-3).map((comment) => (
+                <div>
+            <h5>{`${comment.username} - Posted At: ${comment.createdAt}`} </h5>
+            <p>{comment.commentText}</p>
+                </div>
+                    )) : "" }
+                    {sessionUser.Feeds[0].Posts.length > 0 && (
+                    <div>
+                        <div>
+                        Post a comment:
+                        <br></br>
+                        <textarea type="text" value={commentText} onChange={(e) => setCommentText(e.target.value)} />
+                        <br></br>
+                        <button onClick={(e) => handleCommentPost(e,sessionUser.Feeds[0].Posts[0].id)} >Comment</button>
+                        </div>
+                    </div>
+                    )}
+                <br />
+                <span>{sessionUser.Feeds[0].Posts[0].Comments.length > 2 ? sessionUser.Feeds[0].Posts[0].Comments.length - 3 : `0` } More Comments</span> */}
+                {sessionUser.Feeds[0].Posts.length < 0 ? `` : sessionUser.Feeds[0].Posts.slice(-10).map((post) => {
+                    return (
+            <div class="card">
+				<h5 class="card-header">
+                {post.User.username.charAt(0).toUpperCase() + post.User.username.slice(1)} - Posted At: {post.createdAt}
+                </h5>
+				<div class="card-body">
+					<p class="card-text post-text">
+						{post.postText}
+					</p>
+				</div>
+				<div class="card-footer">
+					{post.Comments.length < 0 ? "Be the first to leave a comment on this post" : post.Comments.map((comment) => {
+                        return (
+                            <>
+                            <p>{comment.User.username} at {comment.createdAt} - </p> <em>{comment.commentText}</em> 
+                        </>
+                        )
+                    })}
+				</div>
+                    <div class="card-footer post-comment-div">
+                    <h5>Post A Comment:</h5>
+                    <textarea class="post-comment-form" value={commentText} onChange={(e) => setCommentText(e.target.value)} />
+                    <button class="btn btn-success btn btn-md post-comment-button" onClick={(e) => handleCommentPost(e,post.id)} >Comment</button>
+
+                    </div>
+			</div>
+                    )
+                }) }
+			
+			</div>
+            
+                    <div class="col-sm-5 right-side-container">
+			<div class="row">
+				<div class="col-sm-12"> 
+                <nav class="nav-bar">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item">
+								<a href="#">Approved Connections</a>
+							</li>
+							<li onClick={(e) => {setRecommendationClick(false);setRequestClick(true);setFeedsClick(false);}} class="breadcrumb-item active">
+								<a href="#">Network Requests</a>
+							</li>
+                            <li onClick={(e) => {setRecommendationClick(true);setRequestClick(false);setFeedsClick(false);getRecommendation(e)}}class="breadcrumb-item">
+                               <a href="#"> Get Recommendation </a>
+                            </li>
+                            <li onClick={(e) => {handleMyFeedClick(e)}} class="breadcrumb-item">
+                                <a href="#">Your Feed</a>
+                            </li >
+                            {sessionUser && (
+                                <li onClick={(e) => {logout(e)}}class="breadcrumb-item">
+                                    <a href="#">Logout</a>
+                                </li>
+                            )}
+                            {!sessionUser && (
+                            <li class="breadcrumb-item">
+                            <NavLink to="/signup">Sign Up</NavLink>
+                            </li>
+                            )}
+                            {!sessionUser && (
+                            <li class="breadcrumb-item">
+                            <NavLink to="/login">Login</NavLink>
+                            </li>
+                            )}
+
+						</ol>
+					</nav>
+  </div>
+  </div>
+                                {recommendationClick && (<RequestProfile  getRecommendation={getRecommendation} selectedUser={selectedUser} sessionUser={sessionUser} isLoaded={isLoaded}/>)}
+                                {requestClick && (<NetworkRequest sessionUser={sessionUser} isLoaded={isLoaded} />)}
+                    
+                    </div>
+  </div>
+	</div>
+    </>
+
+
+
+
+    
+
+    )}
+    )</>)}
+    
+            
 
 export default RecommendationPage

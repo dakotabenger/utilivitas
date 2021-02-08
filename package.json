@@ -1,7 +1,6 @@
 {
   "name": "solution",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "heroku-postbuild": "npm run build --prefix frontend",
@@ -14,5 +13,14 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dakotabenger/final-project.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dakotabenger/final-project/issues"
+  },
+  "homepage": "https://github.com/dakotabenger/final-project#readme",
+  "description": ""
 }

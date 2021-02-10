@@ -1,42 +1,54 @@
-{/* <div class="col-md-4">
-			<div class="row">
-				<div class="col-md-12">
-					<nav>
-                        ______________________________________TURN INTO BUTTONS THAT CHANGE THE COLUMN TO BE FEEDS,REQUESTS,OR APPROVED CONNECTIONS_____________________________________________
-						<ol class="breadcrumb">
-							<li class="breadcrumb-item">
-								<a href="#">Your Feeds</a>
-							</li>
-							<li class="breadcrumb-item">
-								<a href="#">Approved Connections</a>
-							</li>
-							<li class="breadcrumb-item active">
-								Network Requests
-							</li>
-                            <li onClick={(e) => getRecommendation(e)}class="breadcrumb-item active">
-								Network Recommendation
-							</li>
-						</ol>
-					</nav>
-					<div class="row">
-						<div class="col-md-8">
-                            __________________________________________________APPROVED CONNECTIONS HERE______________________________________________
-							<p>
-								Username: Daktest<br />
-							</p>
+import React, { useState,useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Redirect, useHistory } from "react-router-dom";
+import * as sessionActions from "../../../store/session";
+import '../css/style.css'
+import { fetch } from '../../../store/csrf';
+import {setUser} from '../../../store/session'
+import {getUser} from '../../../store/selectedUser'
+
+function ApprovedConnections({sessionUser,isLoaded}) {
+    const dispatch = useDispatch()
+    const history = useHistory()
+  
+
+	const seeFeed = async (e,id) => {
+		e.preventDefault()
+		dispatch(getUser(id))
+
+	} 
+
+            return (
+                <div>
+                {!sessionUser.Network[0] ? "You don't have anyone in your network right now! Try expanding your network to see user feeds!" : (
+                    <div class="row">
+                    <dl class="col-sm-12">
+					{sessionUser.Network.map((user) => {
+						
+						return ( <div class="row">
 							
-							    <div>
-                                Feeds:
-                        	    </div>
-							</div>
+							<dt class="col-sm-4">
+							User: <br ></br> 
+							</dt><br />
+							<dd className="col-sm-4">
+							{user.User.username}
+							</dd><br />
+							<dd className="col-sm-4">
+								 <a href="#" onClick={(e) => seeFeed(e, user.User.id)}>See feed</a>
+							</dd>
 						</div>
-							
-					</div>
-					<div class="col-md-4">
-_________________________________________________ACCEPT CONNECTIONS HERE_______________________________________________________							 
-						<button type="button" class="btn btn-success">
-							ACCEPT
-						</button> 
+
+					)})}
+                    </dl>
+				</div>
+					
+                            
+					
+                               
+                )}
                 </div>
-            </div>
-        </div> */}
+                                )
+                                
+                            }
+                            
+                            export default ApprovedConnections

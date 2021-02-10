@@ -14,7 +14,7 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
-    // setIsLoaded(true)
+    setIsLoaded(true)
   }, [dispatch]);
   
 
@@ -24,7 +24,7 @@ function App() {
       
       {isLoaded && (
         <Switch>
-          <Route path="/" >
+          <Route exact path="/" >
             <LoginFormPage />
           </Route>
           <Route path="/signup">
@@ -35,7 +35,7 @@ function App() {
           <Route path="/profile">
             <Profile />
           </Route>
-          <Route exact path="/home">
+          <Route path="/home">
             <RecommendationPage />
           </Route>
         </Switch>

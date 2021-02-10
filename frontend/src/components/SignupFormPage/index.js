@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import * as sessionActions from "../../store/session";
 import './SignupForm.css';
 import { WithOutContext as ReactTags } from 'react-tag-input';
@@ -21,6 +21,7 @@ function SignupFormPage() {
   const [interestDescription,setInterestDescription] = useState("")
   const [occupation,setOccupation] = useState("")
   const [warm_up_question,setWarmUpQuestion] = useState("")
+  const history = useHistory()
   const [photoUrl, setPhotoUrl] = useState("")
   const [valueSuggestions,setValueSuggestions] = useState([
     { id: 'USA', text: 'USA' },
@@ -47,7 +48,9 @@ function SignupFormPage() {
       if (!isNaN(age)) {
       return dispatch(sessionActions.signup({ email, username, password,age,bio,valueTags,interestTags,
         valueDescription,interestDescription,occupation,warm_up_question,
-        photoUrl }))
+        photoUrl })).then((res) => {
+          history.push("/home")
+        })
         .catch(res => {
           if (res.data && res.data.errors) setErrors(res.data.errors);
         });

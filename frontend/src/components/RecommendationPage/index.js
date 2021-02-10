@@ -10,6 +10,8 @@ import { getRandomRecommendation,getUser } from "../../store/selectedUser";
 import { set } from "js-cookie";
 import NetworkRequest from './NetworkRequests/NetworkRequests'
 import { NavLink } from 'react-router-dom';
+import ApprovedConnections from './ApprovedConnections/ApprovedConnections'
+import App from "../../App";
 
  function RecommendationPage() {
   const dispatch = useDispatch();
@@ -26,8 +28,8 @@ import { NavLink } from 'react-router-dom';
   const [feedsClick,setFeedsClick] = useState(false)
   useEffect(() => {
     setIsLoaded(true)
-  }, [dispatch,isLoaded]);
-  if (!sessionUser || !selectedUser) return history.push("/login")
+  }, [dispatch]);
+  if (!sessionUser || !selectedUser) return <Redirect to="/" />
 
   const handleCommentPost = async (e,id) => {
     setIsLoaded(true)
@@ -160,7 +162,7 @@ import { NavLink } from 'react-router-dom';
 				<div class="col-sm-12"> 
                 <nav class="nav-bar">
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item">
+							<li onClick={(e) => {setRecommendationClick(false);setRequestClick(false);setFeedsClick(true);}} class="breadcrumb-item">
 								<a href="#">Approved Connections</a>
 							</li>
 							<li onClick={(e) => {setRecommendationClick(false);setRequestClick(true);setFeedsClick(false);}} class="breadcrumb-item active">
@@ -194,6 +196,7 @@ import { NavLink } from 'react-router-dom';
   </div>
                                 {recommendationClick && (<RequestProfile  getRecommendation={getRecommendation} selectedUser={selectedUser} sessionUser={sessionUser} isLoaded={isLoaded}/>)}
                                 {requestClick && (<NetworkRequest sessionUser={sessionUser} isLoaded={isLoaded} />)}
+                                {feedsClick && (<ApprovedConnections sessionUser={sessionUser} isLoaded={isLoaded} /> )}
                     
                     </div>
   </div>

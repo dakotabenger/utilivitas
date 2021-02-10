@@ -12,7 +12,7 @@ const setTokenCookie = (res, user) => {
     secret,
     { expiresIn: parseInt(expiresIn) }, // 604,800 seconds = 1 week
   );
-
+    console.log(token,"_______________________setToken_______________________")
   const isProduction = process.env.NODE_ENV === "production";
 
   // Set the token cookie
@@ -29,9 +29,11 @@ const setTokenCookie = (res, user) => {
 const restoreUser = (req, res, next) => {
   // token parsed from cookies
   const { token } = req.cookies;
-
+console.log(token,"restoreUser______________________________")
+if (token) {
   return jwt.verify(token, secret, null, async (err, jwtPayload) => {
     if (err) {
+      console.log(err, "________ERROR IN RESTOREUSER _________") 
       return next();
     }
 
@@ -47,6 +49,7 @@ const restoreUser = (req, res, next) => {
 
     return next();
   });
+} return next()
 };
 
 // If there is no current user, return an error

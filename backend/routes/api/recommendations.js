@@ -47,12 +47,10 @@ router.get("/:userId",requireAuth,asyncHandler(async (req,res) => {
                       {model: Value,where:{userId:matchCritera.userId}},
                       {model:Interest,where:{userId:matchCritera.userId}},
                       {model:Feed,where:{userId:matchCritera.userId},include: [{model: Post,include:[{model: Comment,include:[{model:User}]},{model:User}]}]},
-                      {model:Connection,as: "Requests",where:{accepted:false,requestedUser:matchCritera.userId},required:false,include:[{model:User,include:[{model: Value,where:{userId:matchCritera.userId}},
-                      {model:Interest,where:{userId:matchCritera.userId}},
-                      {model:Feed,where:{userId:matchCritera.userId},include: [{model: Post,include:[{model: Comment,include:[{model:User}]},{model:User}]}]}]}]},
-                      {model:Connection,as: "Network",where:{accepted:true},required:false,include:[{model:User,include:[{model: Value,where:{userId:matchCritera.userId}},
-                        {model:Interest,where:{userId:matchCritera.userId}},
-                        {model:Feed,where:{userId:matchCritera.userId},include: [{model: Post,include:[{model: Comment,include:[{model:User}]},{model:User}]}]}]}]}             
+                      {model:Connection,as: "Requests",where:{accepted:false,requestedUser:matchCritera.userId},required:false,include:[{model:User}]},
+                      {model:Connection,as: "Network",where:{accepted:true, [Sequelize.Op.or]: [{requestedUser:matchCritera.userId},{requestingUser:matchCritera.userId}]},required:false,include:[{model:User}]}
+                        // ,required:false,include: [
+                    //     {model:Feed,where:{userId:matchCritera.userId},include: [{model: Post,required:false,include:[{model: Comment,required:false,include:[{model:User}]}]}]}]}]}             
                   ]
                 }
               )

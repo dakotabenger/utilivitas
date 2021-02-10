@@ -2,21 +2,26 @@ import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
+import * as selectedActions from '../../store/selectedUser'
 import './LoginForm.css';
+import { NavLink } from 'react-router-dom';
 
 function LoginFormPage() {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
+  const selectedUser = useSelector((state) => state.selectedUser.user)
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
 
-  if (sessionUser) return <Redirect to="/" />;
+  if (sessionUser && selectedUser) return <Redirect to="/home" />;
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setErrors([]);
-    return dispatch(sessionActions.login({ credential, password }))
+    return dispatch(sessionActions.login({ credential, password })).then((res) => {
+      dispatch(selectedActions.getUser(res.data.user.id))
+    })
       .catch((res) => {
         if (res.data && res.data.errors) setErrors(res.data.errors);
       });
@@ -51,6 +56,9 @@ function LoginFormPage() {
         </label>
         <button type="submit">Log In</button>
       </form>
+
+      <NavLink to="/signup">Sign Up</NavLink>
+
     </>
   );
 }

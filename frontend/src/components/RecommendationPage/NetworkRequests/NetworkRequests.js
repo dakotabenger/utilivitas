@@ -13,11 +13,11 @@ function NetworkRequest({sessionUser,isLoaded}) {
     const history = useHistory()
   
 
-      const handleConnection = async (e,boolean) => {
+      const handleConnection = async (e,approvedStatus) => {
         e.preventDefault()
         const res = await fetch(`/api/connections/act/${sessionUser.Requests[0].id}`, {
           method: 'POST',
-          body: JSON.stringify({ boolean})
+          body: JSON.stringify({approvedStatus})
         });
         console.log(res.data)
         await dispatch(setUser(res.data.userWithProfileData));
@@ -55,60 +55,16 @@ function NetworkRequest({sessionUser,isLoaded}) {
                         <dd>
                         {sessionUser.Requests[0].User.occupation}
                         </dd>
-						<dt>
-							Interests:
-                            </dt>
-                            <dd>
-                            {sessionUser.Requests[0].User.username} has this to say about their interests: <br></br>
-                            {sessionUser.Requests[0].User.Interests[0].description}
-                        </dd>
-                        <dd>
-                        These are the interests tags this user signed up with:
-                        <br></br>
-                        {sessionUser.Requests[0].User.Interests.map((interest) => {
-                            console.log(interest)
-                            return (
-                                <>
-                                <span>
-                                {interest.tag + ",  "}
-                                </span>                                 
-                                </>
-                                )
-                            })}
-                            </dd>
-                            <dt>
-							Values:
-                            </dt>
-                        <dd>
-                        {sessionUser.Requests[0].User.username} has this to say about their values: <br></br>
-                        {sessionUser.Requests[0].User.Values[0].description}
-                        </dd>
-                        <dd>
-                        These are the value tags this user signed up with:<br />
-                        {sessionUser.Requests[0].User.Values.map((value) => {
-                            return (
-                                <>
-                                <span>
-                                {value.tag + ",  "} 
-                                </span>                             
-                                </>
-                                )
-                            })}
-                            </dd>
                             <dt>
                             User's Warm Up Question: {sessionUser.Requests[0].User.warm_up_question}
+                            </dt>
+                            <dt>
+                                 <a href="#">See Full Profile</a>
                             </dt>
                             </dl>
 					
                             
-					<div class="row">
-                    <div class="col-md-12">
-                    <div class="form-group post-text-area">
-                    
-                    
-                    <textarea class="form-control  post-text-area" rows="8"value={warm_up_response} onChange={(e)=>setWarmUpResponse(e.target.value)}></textarea>
-        
-                    </div>
+					
                     <div class="row">
                     <div class="col-sm-1"></div>
                     <button  onClick={(e) => handleConnection(e,false)} class="col-sm-4 btn btn-success btn-sm">
@@ -121,8 +77,7 @@ function NetworkRequest({sessionUser,isLoaded}) {
                                 <div class="col-sm-1"></div>
                                 </div>
                                 </div>
-                                </div>
-                                </div>
+                                
                 )}
                 </div>
                                 )

@@ -2,6 +2,7 @@ const express = require('express');
 const { check } = require('express-validator');
 const asyncHandler = require('express-async-handler');
 const { Op } = require("sequelize");
+const { Sequelize } = require('sequelize');
 
 const { handleValidationErrors } = require('../../utils/validation');
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
@@ -25,21 +26,19 @@ router.post(
 
     //   } else {
         
-        const userWithProfileData = await User.findByPk(matchCritera.userId,
-            {
-              include: [ 
-                  {model: Value,where:{userId:matchCritera.userId}},
-                  {model:Interest,where:{userId:matchCritera.userId}},
-                  {model:Feed,where:{userId:matchCritera.userId},include: [{model: Post,include:[{model: Comment,include:[{model:User}]},{model:User}]}]},
-                  {model:Connection,as: "Requests",where:{accepted:false,requestedUser:matchCritera.userId},required:false,include:[{model:User,include:[{model: Value,where:{userId:matchCritera.userId}},
-                  {model:Interest,where:{userId:matchCritera.userId}},
-                  {model:Feed,where:{userId:matchCritera.userId},include: [{model: Post,include:[{model: Comment,include:[{model:User}]},{model:User}]}]}]}]},
-                  {model:Connection,as: "Network",where:{accepted:true},required:false,include:[{model:User,include:[{model: Value,where:{userId:matchCritera.userId}},
-                    {model:Interest,where:{userId:matchCritera.userId}},
-                    {model:Feed,where:{userId:matchCritera.userId},include: [{model: Post,include:[{model: Comment,include:[{model:User}]},{model:User}]}]}]}]}             
-              ]
-            }
-          )
+        const userWithProfileData = User.findByPk(userId,
+          {
+            include: [ 
+                {model: Value,where:{userId:userId}},
+                {model:Interest,where:{userId:userId}},
+                {model:Feed,where:{userId:userId},include: [{model: Post,include:[{model: Comment,include:[{model:User}]},{model:User}]}]},
+                {model:Connection,as: "Requests",where:{accepted:false,requestedUser:userId},required:false,include:[{model:User}]},
+                {model:Connection,as: "Network",where:{accepted:true, [Sequelize.Op.or]: [{requestedUser:userId},{requestingUser:userId}]},required:false,include:[{model:User}]}
+                  // ,required:false,include: [
+              //     {model:Feed,where:{userId:userId},include: [{model: Post,required:false,include:[{model: Comment,required:false,include:[{model:User}]}]}]}]}]}             
+            ]
+          }
+        )
        
                 return res.json({
                     userWithProfileData,

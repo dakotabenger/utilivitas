@@ -24,9 +24,12 @@ export const login = ({ credential, password }) => async (dispatch) => {
 
 export const restoreUser = () => async (dispatch) => {
   const res = await fetch('/api/session');
+
+  if (res.data.user) {
   await dispatch(setUser(res.data.user));
-  await dispatch(selectedUserActions.getRandomRecommendation(res.data.user.id))
-  return res;
+    await dispatch(selectedUserActions.getRandomRecommendation(res.data.user.id))
+  }
+    return res;
 };
 
 export const signup = (user) => async (dispatch) => {

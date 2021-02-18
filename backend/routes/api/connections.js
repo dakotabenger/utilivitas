@@ -24,7 +24,7 @@ router.post(
             await connectionToDestroy.destroy()
           }
           
-          const userWithProfileData = User.findByPk(updatedConnection.requestedUser,
+          const userWithProfileData = await User.findByPk(updatedConnection.requestedUser,
             {
               include: [ 
                   {model: Value,where:{userId:updatedConnection.requestedUser}},
@@ -53,7 +53,7 @@ router.post(
               const {warm_up_response} = req.body
               const newConnection = await Connection.create({requestedUser:requestedUserId,requestingUser:requestingUserId,warm_up_response,accepted:false})
               console.log(newConnection,"HEREEEEEEEEEEEEEEEEEEEEEEEEEE____________________________________________________________________________________________________")
-              const userWithProfileData = User.findByPk(requestingUserId,
+              const userWithProfileData = await User.findByPk(requestingUserId,
                 {
                   include: [ 
                       {model: Value,where:{userId:requestingUserId}},

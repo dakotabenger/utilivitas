@@ -26,12 +26,12 @@ router.post(
 
     //   } else {
         
-        const userWithProfileData = User.findByPk(userId,
-          {
+        const userWithProfileData = await User.findByPk(userId,
+          { 
             include: [ 
                 {model: Value,where:{userId:userId}},
                 {model:Interest,where:{userId:userId}},
-                {model:Feed,where:{userId:userId},include: [{model: Post,include:[{model: Comment,include:[{model:User}]},{model:User}]}]},
+                {model:Feed,where:{userId:userId},include: [{model: Post, order:[["createdAt"]],include:[{model:User},{model: Comment,include:[{model:User}]}]}]},
                 {model:Connection,as: "Requests",where:{accepted:false,requestedUser:userId},required:false,include:[{model:User}]},
                 {model:Connection,as: "Network",where:{accepted:true, [Sequelize.Op.or]: [{requestedUser:userId},{requestingUser:userId}]},required:false,include:[{model:User}]}
                   // ,required:false,include: [

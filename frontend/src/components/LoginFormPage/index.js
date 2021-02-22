@@ -28,38 +28,51 @@ function LoginFormPage() {
   };
 
   return (
-    <>
-      <h1>Log In</h1>
+    <div className="row ">
+      <div className="col-sm-4"></div>
+      <div className="col-lg-4 row ">
+        <div className="col-md-4"></div>
+        <div className=" col-md-6 actual-login-container">
+      <h1 className="login-header">Log In To Your Network</h1>
+      <h3 className="signup-header">Don't have an account? Want a new account with different interests? <NavLink to="/signup">Click here.</NavLink></h3>
       <form onSubmit={handleSubmit}>
         <ul>
           {errors.map((error, idx) => (
             <li key={idx}>{error}</li>
           ))}
         </ul>
-        <label>
-          Username or Email
-          <input
+        <div className="form-group">
+        <label className="username-label-login">
+          Username:
+          <input className="username-input-login"
             type="text"
             value={credential}
             onChange={(e) => setCredential(e.target.value)}
             required
           />
         </label>
-        <label>
-          Password
-          <input
+        <br></br>
+        <label className="password-label-login">
+          Password:
+          <input className="password-input-login"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </label>
-        <button type="submit">Log In</button>
+        </div>
+        <div className="row">
+        <div className="col-sm-3"></div>
+        <button className="col-sm-6 login-submit-button" type="submit">Log In</button>
+        <div className="col-sm-3"></div>
+        </div>
       </form>
-
-      <NavLink to="/signup">Sign Up</NavLink>
-
-    </>
+      </div>
+      
+</div>
+<div className="col-sm-4 "></div>
+    </div>
   );
 }
 

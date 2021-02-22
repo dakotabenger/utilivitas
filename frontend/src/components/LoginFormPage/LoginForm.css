@@ -1,0 +1,59 @@
+.login-header {
+    text-align: center;
+}
+
+.actual-login-container {
+    width: 100px;
+    max-height: 750px;
+    background-color: silver;
+    margin-top: 50%;
+    
+
+}
+
+.login-container {
+    width: 400px;
+    max-width: 400px;
+}
+
+.username-label-login {
+    text-align: center;
+    font-size: 12pt;
+    margin-left: 8px;
+}
+
+.signup-header {
+    text-align: center;
+}
+
+.username-input-login {
+    border-radius: 12%;
+    max-width: 125px;
+    margin-left: 10px;
+    max-height: 19px;
+    height: 19px;
+}
+
+.password-label-login {
+    text-align: center;
+    font-size: 12pt;
+    margin-left: 8px;
+}
+
+.password-input-login {
+    border-radius: 12%;
+    margin-left: 14px;
+    max-height: 19px;
+    max-width: 125px;
+}
+
+.login-submit-button {
+    height: 35px;
+    font-size: 11pt;
+    font-weight: 600;
+    background-color: lightcyan;
+}
+
+body {
+ background-color: grey;
+}

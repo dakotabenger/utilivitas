@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect, useHistory } from "react-router-dom";
 import * as sessionActions from "../../../store/session";
 import '../css/style.css'
-import NetworkRequest from '../NetworkRequests/NetworkRequests'
 
 import { fetch } from '../../../store/csrf';
 import {setUser} from '../../../store/session'
@@ -28,75 +27,69 @@ function RequestProfile({getRecommendation,selectedUser,sessionUser,isLoaded}) {
             return (
                 <div class="row ">
                     <dl class="col-lg-12">
-						<dt>
+						<dt className="details-header-intro">
                             {selectedUser.username} might be a good fit for your network
                         </dt>
-						<dd>
+						<dd className="details-sub">
 							Here are some details about them to help you decide.
                         </dd>
-                        <dt>
-                            Bio: 
-                            <br></br>
-                            <br></br><br></br>
+                        <dt className="details-header">
+                            Biography: 
                         </dt>
-                        <dd>
+                        <dd className="details">
                             {selectedUser.bio}
-                        </dd><br></br><br></br>
-                        <dt>
-                            Age:
+                        </dd>
+                        <dt className="details-header">
+                            Age: <span className="details-age">{selectedUser.age}</span>
                         </dt>
-                            <br></br>
-                        <dd>
-                            {selectedUser.age}
-                        </dd><br></br>
-                        <dt>
-                            Occupation:
-                        </dt><br></br><br></br>
-                        <dd>
+                        <dt className="details-header">
+                            Occupation: <span className="details-age">
                         {selectedUser.occupation}
-                        </dd><br></br><br></br>
-						<dt>
+                        </span>
+                        </dt>
+                        
+						<dt className="details-header">
 							Interests:
-						</dt><br></br><br></br>
-                        <dd>
-                        {selectedUser.username} has this to say about their interests: <br></br>
-                        <br></br>{selectedUser.Interests[0].description}
-                        </dd><br></br><br></br>
-                        <dd>
-                        These are the interests tags this user signed up with:
-                        <br></br><br></br>
+						</dt>
+                        <dd className="details-description-intro">
+                        {selectedUser.username} has this to say about their interests: <br></br><p className="details-description">{selectedUser.Interests[0].description}</p>
+                        </dd>
+                        <dd className="details-description-intro">
+                        These are their interests tags:
+                        <br></br>
                         {selectedUser.Interests.map((interest) => {
                             console.log(interest)
                             return (
                                 <>
-                            <span>
-                                {interest.tag + ",  "}
-                                </span>                                 
+                            <span className="detail-tags">
+                                {interest.tag + " "}
+                                </span>
+                                <br></br>                              
                                 </>
                                 )
                             })}
                         </dd>
-                        <dt><br></br><br></br>
-							Values:
-						</dt><br></br><br></br>
-                        <dd>
-                        {selectedUser.username} has this to say about their values: <br></br>
-                        <br></br>{selectedUser.Values[0].description}
-                        </dd><br></br><br></br>
-                        <dd>
-                        These are the value tags this user signed up with:<br /><br></br>
+                        <dt className="details-header">
+                            Values:
+						</dt>
+                        <dd className="details-description-intro">
+                        {selectedUser.username} has this to say about their values: 
+                        <br></br><p className="details-description">{selectedUser.Values[0].description}</p>
+                        </dd>
+                        <dd className="details-description-intro">
+                        These are the value tags this user signed up with:<br></br>
                         {selectedUser.Values.map((value) => {
                             return (
                                 <>
-                                <span>
-                                {value.tag + ",  "} 
-                                </span>                             
+                                <span className="detail-tags">
+                                {value.tag + " "} 
+                                </span><br></br>                             
                                 </>
                                 )
                             })}
                         </dd>
-                        <dt><br></br>
-                            User's Warm Up Question: {selectedUser.warm_up_question}
+                        <dt className="details-header-warm_up"><br></br>
+                            User's Warm Up Question: <br></br><p className="details-warm_up_question">{selectedUser.warm_up_question}</p>
                         </dt><br></br>
                     </dl>
 					

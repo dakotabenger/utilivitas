@@ -12,7 +12,6 @@ import NetworkRequest from './NetworkRequests/NetworkRequests'
 import { NavLink } from 'react-router-dom';
 import ApprovedConnections from './ApprovedConnections/ApprovedConnections'
 import App from "../../App";
-
  function RecommendationPage() {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
@@ -39,6 +38,7 @@ import App from "../../App";
       body: JSON.stringify({commentText})
     });
     dispatch(setUser(res.data.userWithProfileData));
+    dispatch(getUser(selectedUser.id))
   }
   const getRecommendation = async (e) => {
       setIsLoaded(true)
@@ -57,14 +57,24 @@ import App from "../../App";
   };
  const handlePost = async (e) => {
     e.preventDefault()
-    const res = await fetch(`/api/posts/${sessionUser.Feeds[0].id}/${sessionUser.id}`, {
+    const res = await fetch(`/api/posts/${selectedUser.Feeds[0].id}/${sessionUser.id}`, {
       method: 'POST',
       body: JSON.stringify({postText})
     });
     console.log(res.data)
-    await dispatch(setUser(res.data.userWithProfileData));
+     dispatch(setUser(res.data.userWithProfileData));
+     dispatch(getUser(selectedUser.id))
+     
  }
 
+ const clickedUsername = async (e,userId) => {
+     e.preventDefault()
+     dispatch(getUser(userId))
+     setFeedsClick(false)
+     setApprovedClick(false)
+     setRequestClick(false)
+     setRecommendationClick(true)
+ }
   return (
       <>
     {isLoaded && (
@@ -125,11 +135,11 @@ import App from "../../App";
                     )}
                 <br />
                 <span>{sessionUser.Feeds[0].Posts[0].Comments.length > 2 ? sessionUser.Feeds[0].Posts[0].Comments.length - 3 : `0` } More Comments</span> */}
-                {sessionUser.Feeds[0].Posts.length < 0 ? `` : sessionUser.Feeds[0].Posts.slice(-10).map((post) => {
+                {selectedUser.Feeds[0].Posts.length < 0 ? `` : selectedUser.Feeds[0].Posts.slice(-10).map((post) => {
                     return (
             <div class="card">
 				<h5 class="card-header">
-                {post.User.username.charAt(0).toUpperCase() + post.User.username.slice(1)} - Posted At: {post.createdAt}
+                <a onClick={(e) => clickedUsername(e,post.User.id)}>{post.User.username.charAt(0).toUpperCase() + post.User.username.slice(1)} - Posted At: {post.createdAt}</a>
                 </h5>
 				<div class="card-body">
 					<p class="card-text post-text">
@@ -140,7 +150,7 @@ import App from "../../App";
 					{post.Comments.length < 0 ? "Be the first to leave a comment on this post" : post.Comments.map((comment) => {
                         return (
                             <>
-                            <p>{comment.User.username} at {comment.createdAt} - </p> <em>{comment.commentText}</em> 
+                            <p><a onClick={(e) => clickedUsername(e,comment.User.id)}>{comment.User.username} at {comment.createdAt}</a> - </p> <em>{comment.commentText}</em> 
                         </>
                         )
                     })}

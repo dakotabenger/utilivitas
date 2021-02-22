@@ -15,6 +15,7 @@
     position: relative;
     padding: 15px;
     left: 10px;
+    margin-left: 15px;
 }
 
 .post-comment-form {
@@ -27,10 +28,12 @@
 }
 
 .post-text-area {
-    width: 500px;
+    width: 600px;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-left: 40px;
+    resize: none;
 }
 
 .content-container {
@@ -68,4 +71,62 @@
 
 body {
     background-color: gainsboro;
+}
+
+.details-header {
+    font-size: 18pt;
+    margin: 10px
+}
+
+.details {
+    font-size: 13pt;
+    margin: 10px;
+}
+
+.details-sub {
+    font-size: 15pt;
+    margin-top: 0px;
+    text-align: center;
+}
+
+.details-header-intro {
+    font-size: 18pt;
+    margin: 10px;
+    text-align: center;
+}
+
+.details-age {
+    font-weight: normal;
+}
+
+.details-description {
+    font-size: 12pt;
+    font-weight: normal;
+    margin-top: 10px;
+    margin-left: 35px;
+}
+
+.detail-tags {
+    font-size: 12pt;
+    font-weight: normal;
+    margin-left: 35px;
+}
+.details-description-intro {
+    font-size: 14pt;
+    font-weight: bold;
+    counter-reset: count;
+    margin-left: 40px;
+}
+.detail-tags::before {
+    counter-increment: count;
+    content: counter(count)") "
+}
+
+.details-warm_up_question {
+    font-size: 14pt;
+}
+
+.details-header-warm_up{
+    font-size: 18pt;
+    text-align: center;
 }

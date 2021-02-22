@@ -5,13 +5,17 @@
   
   div.ReactTags__tags {
       position: relative;
+      margin-top: 10px;
+      padding: 5px;
   }
   
   /* Styles for the input */
   div.ReactTags__tagInput {
       width: 200px;
-      border-radius: 2px;
-      display: inline-block;
+      border-radius: 12%;
+      margin-top: 10px;
+      display: block;
+      margin-left: 110px;
   }
   div.ReactTags__tagInput input.ReactTags__tagInputField,
   div.ReactTags__tagInput input.ReactTags__tagInputField:focus {
@@ -26,18 +30,28 @@
   /* Styles for selected tags */
   div.ReactTags__selected span.ReactTags__tag {
       border: 1px solid #ddd;
-      background: #eee;
+      background: lightcyan;
       font-size: 12px;
       display: inline-block;
       padding: 5px;
       margin: 0 5px;
       cursor: move;
-      border-radius: 2px;
+      border-radius: 15%;
   }
   div.ReactTags__selected a.ReactTags__remove {
       color: #aaa;
-      margin-left: 5px;
+      /* margin-left: 10px; */
       cursor: pointer;
+  }
+
+  .ReactTags__remove {
+      width: 35px;
+      height: 35px;
+      background-color: transparent;
+      border: transparent;
+      font-size: 14pt;
+      margin-bottom: 3px;
+      color: red;
   }
   
   /* Styles for suggestions */
@@ -61,6 +75,206 @@
       font-weight: 600;
   }
   div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
-      background: #b7cfe0;
+      background: cyan;
       cursor: pointer;
   }
+
+  .form-container {
+      background-color: silver;
+      margin-top: 50px;
+      width: 500px;
+      min-width: 200px;
+      max-width: 600px;
+      max-height: 800px;
+  }
+
+  .photo-label {
+    font-size: 12pt;
+    text-align: center;
+  }
+
+  .photo-input {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+  .warm-up-question-textarea {
+    min-width: 100%;
+    min-height: 150px;
+    resize: none;
+    margin-top: 10px;
+    
+}
+
+.warm-up-question-textarea:focus {
+    min-width: 100%;
+    min-height: 150px;
+    margin-top: 10px;
+}
+
+
+  .warm-up-question-label {
+    font-size: 12pt;
+  }
+
+  .sign-up-submit-button {
+      width: 200px;
+      justify-content: center;
+      height: 50px;
+      background-color: silver;
+      color: black;
+      font-size: 11pt;
+      font-weight: 600;
+  }
+
+  .form-margin {
+    background-color: grey;
+    mix-blend-mode: darken luminosity;
+    /* min-width: 0%;
+    max-width: 20%; */
+  }
+
+  .actual-form-container {
+      margin-top: 15px;
+      max-height: 750px;
+      /* min-width: 20%;
+      max-width: 60%; */
+      overflow-y: scroll;
+      overflow-x: hidden;
+
+  }
+
+  .occupation-label {
+    font-size: 12pt;
+    text-align: center;
+    margin-left: 20px;
+  }
+
+  .occupation-input {
+    margin-top: 10px;
+    border-radius: 12%;
+    margin-left: 60px;
+  }
+
+  .sign-up-h2 {
+      text-align: center;
+      font-size: 18pt;
+  }
+
+  .email-label {
+      margin-top: 8pt;
+      font-size: 12pt;
+      margin-left: 20px;
+  }
+
+  .email-input {
+    border-radius: 12%;
+    margin-left: 110px;
+  }
+
+  .username-label {
+      margin-top: 10px;
+      font-size: 12pt;
+      margin-left: 20px;
+  }
+
+  .username-input {
+    margin-left: 75px;
+    border-radius: 12%;
+  }
+
+  .password-label {
+      margin-top: 10px;
+      font-size: 12pt;
+      margin-left: 20px;
+}
+
+.password-input {
+    margin-left: 80px;
+    border-radius: 12%;
+}
+
+
+.confirm-password-label {
+    margin-top: 10px;
+    font-size: 12pt;
+    margin-left: 20px;
+}
+
+.confirm-password-input {
+    margin-left: 15px;
+    border-radius: 12%;
+}
+
+.bio-label {
+    font-size: 12pt;
+    margin-left: 65px;
+    text-align: center;
+}
+
+.bio-textarea {
+    width: 300px;
+    min-height: 100px;
+    resize: none;
+    margin-top: 10px;
+    border-radius: 10%;
+}
+
+.bio-textarea:focus {
+    min-width: 100%;
+    min-height: 150px;
+    resize: none;
+    margin-top: 10px;
+    margin-left: 20%;
+    border-radius: 12%;
+}
+
+.age-label {
+    font-size: 12pt;
+    margin-left: 15px;
+}
+
+.age-input {
+    margin-left: 120px;
+    border-radius: 12%;
+}
+
+.interest-description-label {
+    font-size: 12pt;
+    text-align: center;
+}
+
+.interest-description-textarea {
+    min-width: 100%;
+    min-height: 150px;
+    resize: none;
+    margin-top: 10px;
+    
+}
+
+.interest-tags-label {
+    font-size: 11pt;
+    text-align: center;
+}
+
+.values-description-label {
+    font-size: 12pt;
+    text-align: center;
+}
+
+.values-description-textarea {
+    min-width: 100%;
+    min-height: 150px;
+    resize: none;
+    margin-top: 10px;
+    
+}
+
+.values-tag-label {
+    font-size: 12pt;
+    text-align: center;
+}
+
+.existing-account-header {
+    text-align: center;
+}

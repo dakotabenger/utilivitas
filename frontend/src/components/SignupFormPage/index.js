@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, useHistory } from "react-router-dom";
+import { NavLink, Redirect, useHistory } from "react-router-dom";
 import * as sessionActions from "../../store/session";
 import './SignupForm.css';
 import { WithOutContext as ReactTags } from 'react-tag-input';
@@ -104,62 +104,81 @@ function handleInterestDrag(tag, currPos, newPos) {
   setInterestTags(newTags)
 }
   return (
-    <>
-    
-      <h1>Sign Up</h1>
+    <div className="row">
+    <div className="col-sm-4"></div>
+    <div className="col-sm-4 form-container">
+      <div className="row">
+        <div className="col-sm-1 form-margin"></div>
+        <div className="col-lg-10 actual-form-container">
+      <h1 className="sign-up-h2">Sign up to start creating your network!</h1>
+      <h2 className="existing-account-header">Already Have An Account? <NavLink to="/">Click Here</NavLink></h2>
       <form onSubmit={handleSubmit}>
         <ul>
           {errors.map((error, idx) => <li key={idx}>{error}</li>)}
         </ul>
-        <label>
-          Email
-          <input
+      <div className="form-group">
+        <label className="email-label">
+          Email:
+          <input className="email-input"
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </label>
-        <label>
-          Username
-          <input
+        <br></br>
+        <label className="username-label">
+          Username:
+          <input className="username-input"
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
         </label>
-        <label>
-          Password
-          <input
+        </div>
+        <div className="form-group">
+  
+        <label className="password-label">
+          Password:
+          <input className="password-input"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </label>
-        <label>
-          Confirm Password
-          <input
+        <br></br>
+        <label className="confirm-password-label">
+          Confirm Password:
+          
+          <input className="confirm-password-input"
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
         </label>
-        <label>
-          Bio:
-          <textarea value={bio} onChange={(e) => setBio(e.target.value)} />
+        </div>
+        <div className="form-group">
+        <label className="bio-label">
+          Bio:<br></br>
+          <textarea className="bio-textarea"value={bio} onChange={(e) => setBio(e.target.value)} />
         </label>
-        <label>
+        <br></br>
+        <label className="age-label">
           Age:
-          <input type="text" value={age} onChange={(e) => setAge(parseInt(e.target.value))} />
+          <input className="age-input" type="text" value={age} onChange={(e) => setAge(parseInt(e.target.value))} />
         </label>
-        <label>
+        </div>
+        <div className="form-group">
+        <label className="interest-description-label">
           Tell us about some of your interests and what gets you up in the morning?
-          <textarea value={interestDescription} onChange={(e) => setInterestDescription(e.target.value)} />
+          <br></br>
+          <textarea className="interest-description-textarea" value={interestDescription} onChange={(e) => setInterestDescription(e.target.value)} />
           </label>
-          <label>
+          <br></br>
+          <label className="interest-tags-label">
             Interest Tags(Usa a Comma or Press Enter to Seperate Tags):
           <ReactTags tags={interestTags}
                     suggestions={interestSuggestions}
@@ -168,11 +187,15 @@ function handleInterestDrag(tag, currPos, newPos) {
                     handleDrag={handleInterestDrag}
                     delimiters={delimiters} />
         </label>
-        <label>
+        </div>
+        <div className="form-group">
+        <label className="values-description-label">
           What matters to you? Here is where you let users know about your values:
-          <textarea value={valueDescription} onChange={(e) => setValueDescription(e.target.value)} />
+          <br></br>
+          <textarea className="values-description-textarea" value={valueDescription} onChange={(e) => setValueDescription(e.target.value)} />
           </label>
-          <label>
+          <br></br>
+          <label className="values-tag-label">
             Values Tags (Use a Comma or Press Enter to Seperate Tags):
           <ReactTags tags={valueTags}
                     suggestions={valueSuggestions}
@@ -182,21 +205,40 @@ function handleInterestDrag(tag, currPos, newPos) {
                     delimiters={delimiters} />
 
         </label>
-        <label>
+        </div>
+        <div className="form-group">
+        <label className="occupation-label">
           Occupation: 
-          <input type="text" value={occupation} onChange={(e) => setOccupation(e.target.value)} />
+          <input className="occupation-input" type="text" value={occupation} onChange={(e) => setOccupation(e.target.value)} />
         </label>
-        <label>
+        </div>
+        <div className="form-group">
+        <label className="photo-label">
           Enter the URL of a Photo to use on your profile:
-          <input type="text" value={photoUrl} onChange={(e) => setPhotoUrl(e.target.value)} />
+          <input placeholder="Use imgur for hosting..."className="photo-input" type="text" value={photoUrl} onChange={(e) => setPhotoUrl(e.target.value)} />
         </label>
-        <label>
+        </div>
+        <div className="form-group">
+        <label className="warm-up-question-label">
           Finally, come up with a question that users can answer to help you decide if you want them in you're network:
-          <textarea value={warm_up_question} onChange={(e) => setWarmUpQuestion(e.target.value)} />
+          <br></br>
+          <textarea  className="warm-up-question-textarea" value={warm_up_question} onChange={(e) => setWarmUpQuestion(e.target.value)} />
         </label>
-        <button type="submit">Sign Up</button>
+        </div>
+        <div className="row">
+        <div className="col-sm-3"></div>
+        <div className="col-sm-6">
+        <button className="sign-up-submit-button"type="submit">Sign Up</button>
+        </div>
+        <div className="col-sm-3"></div>
+        </div>
       </form>
-    </>
+      </div>
+      <div className="col-sm-1 form-margin"></div>
+      </div>
+      </div>
+      <div className="col-sm-4"></div>
+    </div>
   );
 }
 

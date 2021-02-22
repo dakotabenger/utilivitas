@@ -1,6 +1,7 @@
 'use strict';
 const faker = require("faker");
 const bcrypt = require("bcryptjs");
+const { random } = require("faker");
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const randomUsers = []
@@ -16,6 +17,7 @@ module.exports = {
             bio: faker.name.jobDescriptor(),
             photoUrl: faker.internet.avatar()
       }
+      console.log(randomUser.warm_up_question)
       randomUsers.push(randomUser)
     }
     return queryInterface.bulkInsert('Users', [
@@ -69,7 +71,7 @@ module.exports = {
         bio: "I've worked in construction all my life and love doing it.",
         photoUrl: faker.internet.avatar()
       },
-      ...randomUsers
+    randomUsers
     ], {});
   },
 

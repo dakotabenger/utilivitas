@@ -28,9 +28,9 @@ function App() {
             <LoginFormPage />
           </Route>
           <Route path="/signup">
-          <DndProvider backend={HTML5Backend}>
+          {/* <DndProvider backend={HTML5Backend}> */}
             <SignupFormPage />
-            </DndProvider>
+            {/* </DndProvider> */}
           </Route>
           <Route path="/profile">
             <Profile />

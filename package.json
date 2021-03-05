@@ -22,5 +22,9 @@
     "url": "https://github.com/dakotabenger/final-project/issues"
   },
   "homepage": "https://github.com/dakotabenger/final-project#readme",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "sequelize": "^6.5.0",
+    "sequelize-cli": "^6.2.0"
+  }
 }

@@ -55,6 +55,12 @@ function NetworkRequest({sessionUser,isLoaded}) {
                         <dd>
                         {sessionUser.Requests[0].User.occupation}
                         </dd>
+                        <dt>
+                          Warm Up Response:
+                        </dt>
+                        <dd>
+                          {sessionUser.Requests[0].warm_up_response}
+                        </dd>
                             <dt>
                             User's Warm Up Question: {sessionUser.Requests[0].User.warm_up_question}
                             </dt>

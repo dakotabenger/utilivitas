@@ -24,20 +24,20 @@ function SignupFormPage() {
   const history = useHistory()
   const [photoUrl, setPhotoUrl] = useState("")
   const [valueSuggestions,setValueSuggestions] = useState([
-    { id: 'USA', text: 'USA' },
-    { id: 'Germany', text: 'Germany' },
-    { id: 'Austria', text: 'Austria' },
-    { id: 'Costa Rica', text: 'Costa Rica' },
-    { id: 'Sri Lanka', text: 'Sri Lanka' },
-    { id: 'Thailand', text: 'Thailand' }
+    { id: 'genorsity', text: 'Genorsity' },
+    { id: 'loyalty', text: 'Loyalty' },
+    { id: 'family', text: 'Family' },
+    { id: 'friends', text: 'Friends' },
+    { id: 'honesty', text: 'Honesty' },
+    { id: 'respect', text: 'Respect' }
  ])
  const [interestSuggestions,setInterestSuggestions] = useState([
-  { id: 'USA', text: 'USA' },
-  { id: 'Germany', text: 'Germany' },
-  { id: 'Austria', text: 'Austria' },
-  { id: 'Costa Rica', text: 'Costa Rica' },
-  { id: 'Sri Lanka', text: 'Sri Lanka' },
-  { id: 'Thailand', text: 'Thailand' }
+  { id: 'programming', text: 'Programming' },
+  { id: 'diy', text: 'DIY' },
+  { id: 'movies', text: 'Movies' },
+  { id: 'TV', text: 'TV' },
+  { id: 'Sports', text: 'Sports' },
+  { id: 'politics', text: 'Politics' }
 ])
   if (sessionUser) return <Redirect to="/" />;
 

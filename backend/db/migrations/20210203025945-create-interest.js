@@ -13,18 +13,23 @@ module.exports = {
       },
       userId: {
         type: Sequelize.INTEGER,
-        references: { model: "Users" }
+        references: { model: "Users" },
+        
       },
       description: {
         type: Sequelize.STRING
       },
       createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        allowNull: true,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('now'),
+
       },
       updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        allowNull: true,
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('now'),
+
       }
     });
   },

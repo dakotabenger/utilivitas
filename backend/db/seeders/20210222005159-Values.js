@@ -92,7 +92,7 @@ module.exports = {
   tag: 'respect',
   description: "Family over everything. Respect me, I'll respect you.",
   userId: 2
-},,
+},
 {
  tag: 'family',
  description: "I value my family",
@@ -132,7 +132,7 @@ module.exports = {
   description: "I value my wife and kids.",
   userId: 4
  },
- ,{
+ {
   tag: 'family',
   description: "I value respect and generosity and I put my family and friends above everything.",
   userId: 5
@@ -151,8 +151,8 @@ module.exports = {
   tag: 'respect',
   description: "I value respect and generosity and I put my family and friends above everything.",
   userId: 5
- },
-...randomValues
+ }
+// ...randomValues
 
 ], {});
   },
@@ -163,7 +163,7 @@ module.exports = {
       Return a promise to correctly handle asynchronicity.
 
       Example:
-      return queryInterface.bulkDelete('People', null, {});
-    */
+      */
+   return queryInterface.bulkDelete('Values', null, {});
   }
 };

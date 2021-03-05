@@ -1,41 +1,41 @@
 'use strict';
 
+// const randomInterests = []
+// for (let i = 10; i < 14; i++) {
+// const sportsTag =      {
+//     tag: 'sports',
+//     description: "I'm a huge fan of Boston sports, hip hop and RnB, software development and technology, and Star Wars movies!",
+//     userId: i
+//   }
+//   const musicTag = {
+//     tag: 'music',
+//     description: "I'm a huge fan of Boston sports, hip hop and RnB, software development and technology, and Star Wars movies!",
+//     userId: i
+//   }
+//   const techTag = {
+//     tag: 'technology',
+//     description: "I'm a huge fan of Boston sports, hip hop and RnB, software development and technology, and Star Wars movies!",
+//     userId: i
+//   }
+//   const diyTag = {
+//     tag: 'DIY',
+//     description: "I'm a huge fan of Boston sports, hip hop and RnB, software development and technology, and Star Wars movies!",
+//     userId: i
+//   }
+//   const tvTag =
+//   {
+//     tag: 'tv/movies',
+//     description: "I'm a huge fan of Boston sports, hip hop and RnB, software development and technology, and Star Wars movies!",
+//     userId: i
+//   }
+//   randomInterests.push(tvTag)
+//   randomInterests.push(sportsTag)
+//   randomInterests.push(diyTag)
+//   randomInterests.push(techTag)
+//   randomInterests.push(musicTag)
+// }
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    const randomInterests = []
-    for (let i = 10; i < 14; i++) {
-  const sportsTag =      {
-        tag: 'sports',
-        description: "I'm a huge fan of Boston sports, hip hop and RnB, software development and technology, and Star Wars movies!",
-        userId: i
-      }
-      const musicTag = {
-        tag: 'music',
-        description: "I'm a huge fan of Boston sports, hip hop and RnB, software development and technology, and Star Wars movies!",
-        userId: i
-      }
-      const techTag = {
-        tag: 'technology',
-        description: "I'm a huge fan of Boston sports, hip hop and RnB, software development and technology, and Star Wars movies!",
-        userId: i
-      }
-      const diyTag = {
-        tag: 'DIY',
-        description: "I'm a huge fan of Boston sports, hip hop and RnB, software development and technology, and Star Wars movies!",
-        userId: i
-      },
-      const tvTag =
-      {
-        tag: 'tv/movies',
-        description: "I'm a huge fan of Boston sports, hip hop and RnB, software development and technology, and Star Wars movies!",
-        userId: i
-      }
-      randomInterests.push(tvTag)
-      randomInterests.push(sportsTag)
-      randomInterests.push(diyTag)
-      randomInterests.push(techTag)
-      randomInterests.push(musicTag)
-    }
     /*
       Add altering commands here.
       Return a promise to correctly handle asynchronicity.
@@ -48,132 +48,132 @@ module.exports = {
     */
    return queryInterface.bulkInsert('Interests', [
      {
-    tag: 'sports',
+    "tag": 'sports',
     description: "I'm a huge fan of Boston sports, hip hop and RnB, software development and technology, and Star Wars movies!",
     userId: 1
   },
   {
-    tag: 'music',
+    "tag": 'music',
     description: "I'm a huge fan of Boston sports, hip hop and RnB, software development and technology, and Star Wars movies!",
     userId: 1
   },
   {
-    tag: 'technology',
+    "tag": 'technology',
     description: "I'm a huge fan of Boston sports, hip hop and RnB, software development and technology, and Star Wars movies!",
     userId: 1
   },
   {
-    tag: 'DIY',
+    "tag": 'DIY',
     description: "I'm a huge fan of Boston sports, hip hop and RnB, software development and technology, and Star Wars movies!",
     userId: 1
   },
   {
-    tag: 'tv/movies',
+    "tag": 'tv/movies',
     description: "I'm a huge fan of Boston sports, hip hop and RnB, software development and technology, and Star Wars movies!",
     userId: 1
   },
   {
-    tag: 'gaming',
+    "tag": 'gaming',
     description: "I love trucks & working on trucks. Also love playing video games & listening to music.",
     userId: 2
   },
   {
-    tag: 'music',
+    "tag": 'music',
     description: "I love trucks & working on trucks. Also love playing video games & listening to music.",
     userId: 2
   },
   {
-    tag: 'trucks',
+    "tag": 'trucks',
     description: "I love trucks & working on trucks. Also love playing video games & listening to music.",
     userId: 2
   },
   {
-    tag: 'mechanics',
+    "tag": 'mechanics',
     description: "I love trucks & working on trucks. Also love playing video games & listening to music.",
     userId: 2
   },
   {
-    tag: 'DIY',
+    "tag": 'DIY',
     description: "I love trucks & working on trucks. Also love playing video games & listening to music.",
     userId: 2
   }, {
-    tag: 'law',
+    "tag": 'law',
     description: "I like true crime tv shows!",
     userId: 3
   },
   {
-    tag: 'true crime',
+    "tag": 'true crime',
     description: "I like true crime tv shows!",
     userId: 3
   },
   {
-    tag: 'quilting',
+    "tag": 'quilting',
     description: "I like true crime tv shows!",
     userId: 3
   },
   {
-    tag: 'making masks',
+    "tag": 'making masks',
     description: "I like true crime tv shows!",
     userId: 3
   },
   {
-    tag: 'tv/movies',
+    "tag": 'tv/movies',
     description: "I like true crime tv shows!",
     userId: 3
   },
   {
-    tag: 'contruction',
+    "tag": 'contruction',
     description: "I love hot wheels, guns, DIY projects and Marvel movies",
     userId: 4
   },
   {
-    tag: 'hot wheels',
+    "tag": 'hot wheels',
     description: "I love hot wheels, guns, DIY projects and Marvel movies",
     userId: 4
   },
   {
-    tag: 'guns',
+    "tag": 'guns',
     description: "I love hot wheels, guns, DIY projects and Marvel movies",
     userId: 4
   },
   {
-    tag: 'marvel movies',
+    "tag": 'marvel movies',
     description: "I love hot wheels, guns, DIY projects and Marvel movies",
     userId: 4
   },
   {
-    tag: 'tv/movies',
+    "tag": 'tv/movies',
     description: "I love hot wheels, guns, DIY projects and Marvel movies",
     userId: 4
   },
 
-  ,
+  
   {
-    tag: 'contruction',
+    "tag": 'contruction',
     description: "I like all types of music.",
     userId: 5
   },
   {
-    tag: 'hot wheels',
+    "tag": 'hot wheels',
     description: "I like all types of music.",
     userId: 5
   },
   {
-    tag: 'guns',
+    "tag": 'guns',
     description: "I like all types of music.",
     userId: 5
   },
   {
-    tag: 'marvel movies',
+    "tag": 'marvel movies',
     description: "I like all types of music.",
     userId: 5
   },
   {
-    tag: 'tv/movies',
+    "tag": 'tv/movies',
     description: "I like all types of music.",
     userId: 5
   },
-  ...randomInterests
+  // ...randomInterests
 
 ], {});
   },
@@ -184,7 +184,7 @@ module.exports = {
       Return a promise to correctly handle asynchronicity.
 
       Example:
-      return queryInterface.bulkDelete('People', null, {});
-    */
+      */
+   return queryInterface.bulkDelete('Interests', null, {});
   }
 };

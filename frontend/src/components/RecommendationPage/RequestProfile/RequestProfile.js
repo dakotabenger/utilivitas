@@ -28,7 +28,8 @@ function RequestProfile({getRecommendation,selectedUser,sessionUser,isLoaded}) {
                 <div class="row ">
                     <dl class="col-lg-12">
 						<dt className="details-header-intro">
-                            {selectedUser.username} might be a good fit for your network
+                            {selectedUser.username} might be a good fit for your network <br></br>
+                            <img className="profile_picture" src={selectedUser.photoUrl}></img>
                         </dt>
 						<dd className="details-sub">
 							Here are some details about them to help you decide.

@@ -19,7 +19,6 @@ function shuffleArray(array) {
 router.get("/:userId",requireAuth,asyncHandler(async (req,res) => {
     const {userId} = req.params
     const userInterests = await Interest.findAll({where:{userId:userId}})
-    console.log(userInterests,"USER INTERESTTTTTTTTTTTTTTTT")
     const userValues = await Value.findAll({where:{userId:userId}})
     if (userInterests.length > 1 || userValues.length > 1){
         const interestTagArray = userInterests.map((interest) => {

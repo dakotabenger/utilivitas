@@ -3,7 +3,8 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
     const feeds = []
-    for (let i = 0; i < 14; i++ ) {
+    for (let i = 0; i < 9; i++ ) {
+      console.log(i)
       const feed = {
         name: "personal feed",
         userId: i
@@ -20,7 +21,48 @@ module.exports = {
         isBetaMember: false
       }], {});
     */
-   return queryInterface.bulkInsert('Feeds', [...feeds], {})
+   return queryInterface.bulkInsert('Feeds', [
+    {
+      name: "personal feed",
+      userId: 1
+    },
+    {
+      name: "personal feed",
+      userId: 2
+    },
+    {
+      name: "personal feed",
+      userId: 3
+    },
+    {
+      name: "personal feed",
+      userId: 4
+    },
+    {
+      name: "personal feed",
+      userId: 5
+    },
+    {
+      name: "personal feed",
+      userId: 6
+    },
+    {
+      name: "personal feed",
+      userId: 7
+    },
+    {
+      name: "personal feed",
+      userId: 8
+    },
+    {
+      name: "personal feed",
+      userId: 9
+    },
+    {
+      name: "personal feed",
+      userId: 10
+    },
+   ], {})
   },
 
   down: (queryInterface, Sequelize) => {
@@ -29,7 +71,7 @@ module.exports = {
       Return a promise to correctly handle asynchronicity.
 
       Example:
-      return queryInterface.bulkDelete('People', null, {});
-    */
+      */
+   return queryInterface.bulkDelete('Feeds', null, {});
   }
 };

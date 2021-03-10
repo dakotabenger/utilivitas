@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Redirect, useHistory } from "react-router-dom";
 import * as sessionActions from "../../store/session";
 import './SignupForm.css';
-// import { WithOutContext as ReactTags } from 'react-tag-input';
+import { WithOutContext as ReactTags } from 'react-tag-input';
 
 function SignupFormPage() {
   const dispatch = useDispatch();
@@ -180,12 +180,12 @@ function handleInterestDrag(tag, currPos, newPos) {
           <br></br>
           <label className="interest-tags-label">
             Interest Tags(Usa a Comma or Press Enter to Seperate Tags):
-          {/* <ReactTags tags={interestTags}
+          <ReactTags tags={interestTags}
                     suggestions={interestSuggestions}
                     handleDelete={handleInterestDelete}
                     handleAddition={handleInterestAddition}
                     handleDrag={handleInterestDrag}
-                    delimiters={delimiters} /> */}
+                    delimiters={delimiters} />
         </label>
         </div>
         <div className="form-group">
@@ -197,12 +197,12 @@ function handleInterestDrag(tag, currPos, newPos) {
           <br></br>
           <label className="values-tag-label">
             Values Tags (Use a Comma or Press Enter to Seperate Tags):
-          {/* <ReactTags tags={valueTags}
+          <ReactTags tags={valueTags}
                     suggestions={valueSuggestions}
                     handleDelete={handleValueDelete}
                     handleAddition={handleValueAddition}
                     handleDrag={handleValueDrag}
-                    delimiters={delimiters} /> */}
+                    delimiters={delimiters} />
 
         </label>
         </div>

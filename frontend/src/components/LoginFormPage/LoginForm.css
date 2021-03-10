@@ -20,6 +20,7 @@
     text-align: center;
     font-size: 12pt;
     margin-left: 8px;
+    margin-top: 15px;
 }
 
 .signup-header {
@@ -32,12 +33,14 @@
     margin-left: 10px;
     max-height: 19px;
     height: 19px;
+    
 }
 
 .password-label-login {
     text-align: center;
     font-size: 12pt;
     margin-left: 8px;
+    margin-top: 10px;
 }
 
 .password-input-login {
@@ -45,6 +48,7 @@
     margin-left: 14px;
     max-height: 19px;
     max-width: 125px;
+    
 }
 
 .login-submit-button {
@@ -52,8 +56,15 @@
     font-size: 11pt;
     font-weight: 600;
     background-color: lightcyan;
+    margin-top: 35px;
 }
 
 body {
  background-color: grey;
+}
+
+.site-description {
+    text-align: center;
+    padding-top: 170px;
+    margin-left: 100px;
 }

@@ -42,6 +42,7 @@ function LoginFormPage() {
   return (
     <div className="row ">
       <div className="col-sm-4">
+        <img className="logo-front-page" src="./logo.png"></img>
       <h1 className="site-description"> Welcome to Utilivitas, a personal social media project where users can be matched based on interests and values, and 
         then have discussions on feeds. In the future, custom feeds will be added, as well as S3 image hosting, private invite codes, and data verfication (where members of your network can verify things you say on your profile or posts).
         This project was created by me, Dakota Benger. You can find my <a href="https://www.github.com/dakotabenger">GitHub here</a> and my <a href="https://docs.google.com/document/d/1xkkyMTuGX4L_u2kPIKwc92iVU7KS4pBoDhQofCNMir0/edit">resume here</a> . I am always looking for my next exiciting oppurtunity, so feel free to reach out to me if you have 

@@ -171,7 +171,9 @@ import App from "../../App";
 			<div class="row">
 				<div class="col-sm-12"> 
                 <nav class="nav-bar">
+                <img className="nav-bar-logo" src="./logo.png"></img>
 						<ol class="breadcrumb">
+                            {/* <li></li> */}
 							<li onClick={(e) => {setRecommendationClick(false);setRequestClick(false);setFeedsClick(true);}} class="breadcrumb-item">
 								<a href="#">Approved Connections</a>
 							</li>

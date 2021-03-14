@@ -33,7 +33,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/dakotabenger/utilivitas">
-    <img src="./frontEnd/public/logo.png" alt="Logo" >
+    <img src="./frontend/public/logo.png" alt="Logo" >
   </a>
 
   <h3 align="center"><img src="./favicon.ico">Utilivitas</h3>

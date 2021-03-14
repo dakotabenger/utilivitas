@@ -36,7 +36,7 @@
     <img src="./frontend/public/logo.png" alt="Logo" >
   </a>
 
-  <h3 align="center"><img style="height: 50px; width: 50px"src="./frontend/public/favicon.ico">Utilivitas</h3>
+  <h3 align="center"><img height="50px" width="50px" src="./frontend/public/favicon.ico">Utilivitas</h3>
 
   <p align="center">
     An application that makes it easy to create a to-do list so you'll never forget to grab the milk.  
@@ -84,9 +84,9 @@
 ## About The Project
 
 ![product-screenshot](./frontend/public/ulitivitas1.PNG)
-![product-screenshot](./frontend/public/ulitivitas2.png)
-![product-screenshot](./frontend/public/ulitivitas3.png)
-![product-screenshot](./frontend/public/ulitivitas4.png)
+![product-screenshot](./frontend/public/ulitivitas2.PNG)
+![product-screenshot](./frontend/public/ulitivitas3.PNG)
+![product-screenshot](./frontend/public/ulitivitas4.PNG)
 
 Utilivitas is a social media site that empowers users to connect with strangers of similar interests and values and build their own community togtheor. 
 #

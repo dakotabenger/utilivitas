@@ -36,7 +36,7 @@
     <img src="./frontend/public/logo.png" alt="Logo" >
   </a>
 
-  <h3 align="center"><img height="50px" width="50px" src="./frontend/public/favicon.ico">Utilivitas</h3>
+  <h3 align="center"><img height="50px" width="50px" margin-top="10px" src="./frontend/public/favicon.ico">Utilivitas</h3>
 
   <p align="center">
     An application that makes it easy to create a to-do list so you'll never forget to grab the milk.  
